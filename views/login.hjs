@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="utf-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<meta name="description" content="">
+	<meta name="author" content="">
+	<link rel="shortcut icon" href="/assets/img/favicon.ico">
+	
+	<link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.1.1/css/bootstrap.min.css">
+	<link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.1.1/css/bootstrap-theme.min.css">
+	<link rel="stylesheet" href="/assets/css/login.css">
+	<script type="text/javascript" src="/assets/js/jquery.js"></script>
+	<script>
+		$(function(){
+			$('form').submit(function(e){
+				e.preventDefault();
+				$.post('/users/login',{
+					username: $('.username').val(),
+					password: $('.password').val()
+				},
+				function(data){
+					if (data.error) $('.alert').removeClass('hidden');
+					else if (data.success) window.location = '/';
+					else alert('there has been a problem.');
+				});
+			});
+		});
+	</script>
+	
+	<title>Virtual Playmat - Login</title>
+</head>
+<body>
+	<div class="container">
+	<form class="form-signin" role="form">
+		<input type="text" class="username form-control" placeholder="username" required autofocus>
+		<input type="password" class="password form-control" placeholder="password" required>
+		<button class="btn btn-lg btn-primary btn-block" type="submit">Sign in</button>
+		<div class="alert alert-danger hidden">Login failed!</div>
+	</form>
+	</div> <!-- /container -->
+</body>
+</html>

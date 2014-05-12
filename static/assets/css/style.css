@@ -1,0 +1,14 @@
+.navbar{
+	margin-bottom: 0px;
+}
+.canvas-wrap{
+	overflow: hidden;
+}
+.controls{
+	position: absolute;
+	bottom: 0px;
+	border-top: 1px solid black;
+}
+.fa-sm{
+	width: 11px;
+}

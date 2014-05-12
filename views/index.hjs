@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="utf-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<meta name="description" content="">
+	<meta name="author" content="">
+	<link rel="shortcut icon" href="/assets/img/favicon.ico">
+	
+	<link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.1.1/css/bootstrap.min.css">
+	<link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.1.1/css/bootstrap-theme.min.css">
+	<link href="//netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.css" rel="stylesheet">
+	<link rel="stylesheet" href="/assets/css/style.css">
+	{{#settings}}
+		{{#dev}}
+			<script data-main="main" src="/assets/js/require.js"></script>
+		{{/dev}}
+		{{^dev}}
+			<script src="/build/app-build.js"></script>
+		{{/dev}}
+	{{/settings}}
+	
+	<title>Virtual Playmat</title>
+	
+	
+</head>
+<body>
+<div class="navbar navbar-inverse navbar-fixed-top" role="navigation">
+	<div class="container">
+		<div class="navbar-header">
+			<button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+				<span class="sr-only">Toggle navigation</span>
+				<span class="icon-bar"></span>
+				<span class="icon-bar"></span>
+				<span class="icon-bar"></span>
+			</button>
+			<a class="navbar-brand" href="#">Virtual Playmat</a>
+		</div>
+		<div class="collapse navbar-collapse">
+			<ul class="nav navbar-nav">
+				<li class="active"><a href="#">Dungeons</a></li>
+				<li><a href="#about">Games</a></li>
+			</ul>
+		</div><!--/.nav-collapse -->
+	</div>
+</div>
+<div class="container-fluid">
+	<div class="row">
+		<div class="canvas-wrap">
+			<div id="canvas"></div>
+		</div>
+	</div>
+	<div class="row">
+		<div class="controls">
+			<div class="col-xs-2">
+				<div class="input-group">
+					<span class="input-group-addon"><i class="fa fa-minus fa-sm"></i></span>
+					<input type="color" value="" class="form-control js-shape-color" />
+				</div>
+			</div>
+			<div class="col-xs-2">
+				<button class="btn btn-default js-load-dungeon">Load Dungeon</button>
+			</div>
+			<div class="col-xs-2">
+				<div class="input-group">
+					<span class="input-group-addon"><i class="fa fa-minus"></i></span>
+					<input id="figure-stroke-color" type="color" value="" class="form-control js-figure-stroke-color" />
+				</div>
+				<div class="input-group">
+					<span class="input-group-addon"><i class="fa fa-tint fa-lg"></i></span>
+					<input id="figure-fill-color" type="color" value="" class="form-control js-figure-fill-color" />
+				</div>
+				<div class="input-group">
+					<span class="input-group-addon"><i class="fa fa-font fa-sm"></i></span>
+					<input id="figure-label" type="text" value="" class="form-control js-figure-label" />
+				</div>
+				<button class="btn btn-default js-add-figure">Add Figure</button>
+			</div>
+		</div>
+	</div>
+</div>
+</body>
+</html>
