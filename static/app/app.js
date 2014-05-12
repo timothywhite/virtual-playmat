@@ -23,7 +23,8 @@ define(['marionette'],function(){
 		stageContainer: 'canvas',
 		cellSize: 50,
 		gridWidth: 15,
-		gridHeight: 12
+		gridHeight: 12,
+		toolMode: 'line'
 	});
 	return app;
 });

@@ -58,6 +58,8 @@
 					<span class="input-group-addon"><i class="fa fa-minus fa-sm"></i></span>
 					<input type="color" value="" class="form-control js-shape-color" />
 				</div>
+				<button class="btn btn-default js-button-tool-line">Line</button>
+				<button class="btn btn-default js-button-tool-erase">Erase</button>
 			</div>
 			<div class="col-xs-2">
 				<button class="btn btn-default js-load-dungeon">Load Dungeon</button>

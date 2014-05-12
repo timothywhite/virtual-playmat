@@ -5,8 +5,10 @@ define(['marionette', 'app', 'module/layers'], function(){
 			
 		function _set_event_handlers(shape){
 			shape.on('dblclick dbltap', function(e){
-				this.remove();
-				drawLayer.draw();
+				if(app.request('config', 'toolMode') === 'erase'){
+					this.remove();
+					drawLayer.draw();
+				}
 			});
 		};
 		app.commands.setHandler("draw:line", function(points){

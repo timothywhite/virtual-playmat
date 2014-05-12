@@ -4,8 +4,13 @@ define(['marionette', 'app', 'module/layers'], function(){
 		figureLayer = app.request('layer','figure'),
 		cellSize = app.request('config','cellSize');
 		function _init_figure(figure){
+			figure.on('dblclick', function(e){
+				figure.remove();
+				figureLayer.draw();
+			});
 			figure.on('dragstart', function(e){
 				figure.moveToTop();
+				app.vent.trigger('figure:pickup', figure);
 			});
 			figure.on('dragend', function(e){
 				var posx = this.x() + cellSize / 2,
@@ -15,6 +20,7 @@ define(['marionette', 'app', 'module/layers'], function(){
 				this.x(x);
 				this.y(y);
 				figureLayer.draw();
+				app.vent.trigger('figure:drop', figure);
 			});
 			figure.dragBoundFunc(function(pos){
 				return {

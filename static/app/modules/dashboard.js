@@ -1,6 +1,12 @@
 define(['marionette','app','module/init'], function(){
 	app.module("Dashboard", function(Dashboard, app, Backbone, Marionette, $, _){
 		$(function(){
+			$('.js-button-tool-line').click(function(){
+				app.execute('config:set', 'toolMode', 'line'); 
+			});	
+			$('.js-button-tool-erase').click(function(){
+				app.execute('config:set', 'toolMode', 'erase'); 
+			});	
 			$('.js-shape-color').change(function(){
 				app.execute('draw:set:shapecolor',$(this).val());
 			});

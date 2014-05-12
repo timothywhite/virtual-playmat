@@ -49,30 +49,47 @@ define(['marionette', 'app', 'module/layers'], function(){
 			height: gridHeight * cellSize
 		});
 		hitRect.on('mousemove', function(e){
-			var pos = stage.getPointerPosition();
-			mousex = pos.x - stage.x();
-			mousey = pos.y - stage.y();
-			var hitCellSize = cellSize/2,
-			radius = hitCellSize / 4,
-			x1 = Math.floor(mousex / hitCellSize) * hitCellSize,
-			x2 = Math.floor(mousex / hitCellSize) * hitCellSize + hitCellSize,
-			y1 = Math.floor(mousey / hitCellSize) * hitCellSize,
-			y2 = Math.floor(mousey / hitCellSize) * hitCellSize + hitCellSize,
-			x = Math.abs(mousex - x1) < (hitCellSize / 2) ? x1 : x2,
-			y = Math.abs(mousey - y1) < (hitCellSize / 2) ? y1 : y2,
-			deltax = mousex - x, 
-			deltay = mousey - y,
-			delta = Math.sqrt((deltax * deltax) + (deltay * deltay));
-			if(delta <= radius){
-				hoverCircle.x(x);
-				hoverCircle.y(y);
-				hoverCircle.radius(radius)
-				hoverCircle.show();
-				uiLayer.draw();
-			} else {
-				if (hoverCircle.visible()){
-					hoverCircle.hide();
+			if (app.request('config', 'toolMode') !== 'erase'){
+				var pos = stage.getPointerPosition();
+				mousex = pos.x - stage.x();
+				mousey = pos.y - stage.y();
+				var hitCellSize = cellSize/2,
+				radius = hitCellSize / 4,
+				x1 = Math.floor(mousex / hitCellSize) * hitCellSize,
+				x2 = Math.floor(mousex / hitCellSize) * hitCellSize + hitCellSize,
+	 			y1 = Math.floor(mousey / hitCellSize) * hitCellSize,
+				y2 = Math.floor(mousey / hitCellSize) * hitCellSize + hitCellSize,
+				x = Math.abs(mousex - x1) < (hitCellSize / 2) ? x1 : x2,
+				y = Math.abs(mousey - y1) < (hitCellSize / 2) ? y1 : y2,
+				deltax = mousex - x, 
+				deltay = mousey - y,
+				delta = Math.sqrt((deltax * deltax) + (deltay * deltay));
+				if(delta <= radius){
+					hoverCircle.x(x);
+					hoverCircle.y(y);
+					hoverCircle.radius(radius)
+					hoverCircle.show();
 					uiLayer.draw();
+					setTimeout(function(){
+						if (hoverCircle.x() === x && hoverCircle.y() === y && hoverCircle.visible()){
+							var pos = stage.getPointerPosition(),
+                        			        mousex = pos.x - stage.x(),
+			                                mousey = pos.y - stage.y(),
+							deltax = mousex - x,
+			                                deltay = mousey - y,
+                        			        delta = Math.sqrt((deltax * deltax) + (deltay * deltay));
+							if (delta > radius){
+								hoverCircle.hide();
+								uiLayer.draw();
+								console.log('manually cleared');
+							}
+						}
+					}, 100);
+				} else {
+					if (hoverCircle.visible()){
+						hoverCircle.hide();
+						uiLayer.draw();
+					}
 				}
 			}
 		});
