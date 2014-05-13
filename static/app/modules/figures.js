@@ -5,8 +5,10 @@ define(['marionette', 'app', 'module/layers'], function(){
 		cellSize = app.request('config','cellSize');
 		function _init_figure(figure){
 			figure.on('dblclick', function(e){
-				figure.remove();
-				figureLayer.draw();
+				if (app.request('config', 'toolMode') == 'erase'){
+					figure.remove();
+					figureLayer.draw();
+				}
 			});
 			figure.on('dragstart', function(e){
 				figure.moveToTop();
