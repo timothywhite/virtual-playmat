@@ -71,7 +71,7 @@
 				</div>
 				<div class="input-group">
 					<span class="input-group-addon"><i class="fa fa-tint fa-lg"></i></span>
-					<input id="figure-fill-color" type="color" value="" class="form-control js-figure-fill-color" />
+					<input id="figure-fill-color" type="color" value="#FFFFFF" class="form-control js-figure-fill-color" />
 				</div>
 				<div class="input-group">
 					<span class="input-group-addon"><i class="fa fa-font fa-sm"></i></span>
