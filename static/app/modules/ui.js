@@ -72,13 +72,15 @@ define(['marionette', 'app', 'module/layers'], function(){
 					uiLayer.draw();
 					setTimeout(function(){
 						if (hoverCircle.x() === x && hoverCircle.y() === y && hoverCircle.visible()){
-							var pos = stage.getPointerPosition(),
-                        			        mousex = pos.x - stage.x(),
-			                                mousey = pos.y - stage.y(),
-							deltax = mousex - x,
-			                                deltay = mousey - y,
-                        			        delta = Math.sqrt((deltax * deltax) + (deltay * deltay));
-							if (delta > radius){
+							var pos = stage.getPointerPosition()
+							if (pos){
+								mousex = pos.x - stage.x(),
+								mousey = pos.y - stage.y(),
+								deltax = mousex - x,
+								deltay = mousey - y,
+								delta = Math.sqrt((deltax * deltax) + (deltay * deltay));
+							}
+							if (delta > radius || !pos){
 								hoverCircle.hide();
 								uiLayer.draw();
 								console.log('manually cleared');
