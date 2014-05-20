@@ -22,8 +22,8 @@ define(['marionette'],function(){
 	app.start({
 		stageContainer: 'canvas',
 		cellSize: 50,
-		gridWidth: 15,
-		gridHeight: 12,
+		gridWidth: 0,
+		gridHeight: 0,
 		toolMode: 'line'
 	});
 	return app;

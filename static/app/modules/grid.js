@@ -27,8 +27,6 @@ define(['marionette', 'kinetic', 'app', 'module/layers'], function(){
 			layer.drawScene();
 		}
 		
-		_draw_grid();
-		
 		app.commands.setHandler('grid:redraw', _draw_grid);
 		app.commands.setHandler('redraw', _draw_grid);
 		app.vent.on('config:gridset',_draw_grid);

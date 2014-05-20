@@ -36,11 +36,12 @@ define(['marionette','app','module/init'], function(){
 				app.request('dungeon:search', $(this).val(), function(dungeons){
 					$list = $('.js-dungeon-results').html('');
 					dungeons.forEach(function(dungeon){
-						$list.append('<li><a class="js-dungeon-link" href="#" data-_id= "' + dungeon._id + '">' + dungeon.name + '</a></li>');
+						$list.append('<li><a class="js-dungeon-link" href="#" data-_id= "' + dungeon._id + '" data-name="' + dungeon.name + '">' + dungeon.name + '</a></li>');
 					});
 
 					$('.js-dungeon-link').click(function(e){
 						app.execute('dungeon:load', $(this).data('_id'));
+						$('.js-dungeon-name').html($(this).data('name'));
 					});
 				});
 			});

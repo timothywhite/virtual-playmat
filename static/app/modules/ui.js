@@ -11,21 +11,20 @@ define(['marionette', 'app', 'module/layers'], function(){
 			y: 0,
 			radius: cellSize/4,
 			stroke: 'black',
-			strokeWidth: 1
+			strokeWidth: 1,
+			visible: false
 		}),
 		selectCircle = new Kinetic.Circle({
 			x: 0,
 			y: 0,
 			radius: cellSize/4,
 			stroke: 'red',
-			strokeWidth: 1
+			strokeWidth: 1,
+			visible: false
 		});
-		hoverCircle.hide();
-		selectCircle.hide();
 		hoverCircle.on('mouseleave', function(e){
 			hoverCircle.hide();
 			uiLayer.draw();
-			console.log('leave: ' + this.x() + ' ' + this.y());
 		});
 		hoverCircle.on('click', function(e){
 			if (!selectCircle.visible()){
@@ -87,7 +86,6 @@ define(['marionette', 'app', 'module/layers'], function(){
 							if (delta > radius || !pos){
 								hoverCircle.hide();
 								uiLayer.draw();
-								console.log('manually cleared');
 							}
 						}
 					}, 100);
@@ -100,9 +98,8 @@ define(['marionette', 'app', 'module/layers'], function(){
 			}
 		});
 		hitLayer.add(hitRect);
-		hitLayer.drawHit();
 		
-		function _redraw_hit_rect(){
+		function _draw_hit_rect(){
 			var cellSize = app.request('config','cellSize'),
 			gridWidth = app.request('config', 'gridWidth'),
 			gridHeight = app.request('config', 'gridHeight');
@@ -112,7 +109,7 @@ define(['marionette', 'app', 'module/layers'], function(){
 			hitLayer.drawHit();
 		}
 		
-		app.commands.setHandler('ui:redraw', _redraw_hit_rect);
-		app.vent.on('config:gridset',_redraw_hit_rect);
+		app.commands.setHandler('ui:redraw', _draw_hit_rect);
+		app.vent.on('config:gridset',_draw_hit_rect);
 	});
 });

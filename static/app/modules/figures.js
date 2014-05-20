@@ -77,8 +77,5 @@ define(['marionette', 'app', 'module/layers'], function(){
 			figureLayer.draw();
 			figureLayer.getChildren(_init_figure);
 		});
-		
-		app.execute('figure:add', {stroke: 'black', fill: 'grey', label:'1'});
-		app.execute('figure:add', {stroke: 'black', fill: 'red', label:'2'});
 	});
 });
