@@ -1,11 +1,12 @@
 var restful = require('node-restful'),
-	mongoose = restful.mongoose;
-	Schema = mongoose.Schema;
+	mongoose = restful.mongoose,
+	Schema = mongoose.Schema,
+	ObjectId = mongoose.Types.ObjectId;
 
 
 var DungeonSchema = new Schema({
 	name: String,
-	dm: String,
+	dm: Schema.ObjectId,
 	gridWidth: Number,
 	gridHeight: Number,
 	layers: {
@@ -17,14 +18,12 @@ var DungeonSchema = new Schema({
 var Dungeon = restful.model('dungeons', DungeonSchema);
 
 Dungeon.methods(['get','post','put','delete'])
-	.route('dm', function(req, res){
-		console.log('works');
-		Dungeon.find({dm:req.query.dm}, function(err, dungeons){
+	.route('search', function(req, res){
+		var regex = new RegExp(req.query.name, 'i');
+		Dungeon.find({dm:ObjectId(req.query.dm), name:regex},'_id name', function(err, dungeons){
 			if(err) throw err;
 			res.json(dungeons);
 		});
 	});
 	
 module.exports = Dungeon;
-
-

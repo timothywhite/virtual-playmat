@@ -21,9 +21,16 @@
 					password: $('.password').val()
 				},
 				function(data){
-					if (data.error) $('.alert').removeClass('hidden');
-					else if (data.success) window.location = '/';
-					else alert('there has been a problem.');
+					if (data.error){ 
+						 $('.alert').removeClass('hidden');
+					}
+					else if (data.success) {
+						localStorage.setItem('user_id', data.user_id);
+						window.location = '/';
+					}
+					else{ 
+						alert('there has been a problem.');
+					}
 				});
 			});
 		});

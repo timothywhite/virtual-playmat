@@ -15,7 +15,7 @@ router.route('/login')
 			if (err) throw err;
 			if(isMatch) {
 				req.session.user = user;
-				res.json({success: 'fuck yeah!'});
+				res.json({success: 'fuck yeah!', user_id: user.id});
 			} else{
 				res.json({error: 'Invalid login.'});
 			}

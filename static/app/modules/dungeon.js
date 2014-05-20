@@ -13,5 +13,12 @@ define(['marionette', 'kinetic', 'app', 'module/layers'], function(){
 		app.commands.setHandler('dungeon:save', function(){
 			
 		});
+
+		app.reqres.setHandler('dungeon:search', function(name, callback){
+			$.get('/api/dungeons/search?dm=' + localStorage.getItem('user_id') + '&name=' + name, function(data, status, xhr){
+                                console.log(data);
+				callback(data);
+                        }, 'json');
+		});
 	});
 });

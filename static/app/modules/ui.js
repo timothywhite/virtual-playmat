@@ -39,6 +39,10 @@ define(['marionette', 'app', 'module/layers'], function(){
 				uiLayer.draw();
 			}
 		});
+		selectCircle.on('click', function(e){
+			selectCircle.hide();
+			uiLayer.draw();
+		});
 		uiLayer.add(hoverCircle);
 		uiLayer.add(selectCircle);
 		
