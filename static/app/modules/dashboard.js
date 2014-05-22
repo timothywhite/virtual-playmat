@@ -26,7 +26,12 @@ define(['marionette','app','module/init'], function(){
 			app.commands.setHandler('dashboard:setname', function(name){
 				$('.js-dungeon-name').html(name);
 			});	
-
+			app.commands.setHandler('dashboard:showcanvas', function(){
+				$('.canvas-wrap').show();
+			});
+			app.commands.setHandler('dashboard:hidecanvas', function(){
+				$('.canvas-wrap').hide();
+			});
 			$(window).resize(function(e){
 				app.execute('stage:resize');	
 			});
@@ -43,7 +48,8 @@ define(['marionette','app','module/init'], function(){
 
 					$('.js-dungeon-link').click(function(e){
 						app.execute('dungeon:load', $(this).data('_id'));
-						$('.js-dungeon-name').html($(this).data('name'));
+						app.execute('dashboard:setname',$(this).data('name'));
+						app.execute('dashboard:showcanvas');
 					});
 				});
 			});
@@ -53,12 +59,15 @@ define(['marionette','app','module/init'], function(){
 				    gridHeight = $('.js-dungeon-create-grid-height').val();
 				if(name && gridWidth && gridHeight){
 					app.execute('dungeon:create', name, gridWidth, gridHeight);
+					$('.canvas-wrap').show();
 				}else{
 					console.log('fill out the form.');
 				}
 			});
 			$('.js-dungeon-delete').click(function(e){
 				app.execute('dungeon:delete');
+				app.execute('dashboard:hidecanvas');
+				app.execute('dashboard:setname','');
 			});
 			$('.js-dungeon-save').click(function(e){
 				app.execute('dungeon:save');
