@@ -9,6 +9,10 @@ define(['marionette', 'kinetic', 'app', 'module/init'], function(){
 		app.reqres.setHandler('stage', function(){
 			return stage;
 		});
+		app.commands.setHandler('stage:reset', function(){
+			stage.x(0);
+			stage.y(0);
+		});
 		app.commands.setHandler('stage:add', function(node){
 			stage.add(node);
 		});

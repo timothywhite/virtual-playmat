@@ -24,12 +24,18 @@ define(['marionette','app','module/init'], function(){
 					label: $('.js-figure-label').val()
 				});
 			});
+			app.reqres.setHandler('dashboard:name', function(){
+				return $('.js-dungeon-name').html();
+			});
+			app.commands.setHandler('dashboard:setname', function(name){
+				$('.js-dungeon-name').html(name);
+			});	
 
 			$(window).resize(function(e){
 				app.execute('stage:resize');	
 			});
 
-			$('.form-dropdown').click(function(e){
+			$('.form-dropdown input').click(function(e){
 				e.stopPropagation();
 			});
 			$('.js-dungeon-search').keyup(function(e){
@@ -44,6 +50,22 @@ define(['marionette','app','module/init'], function(){
 						$('.js-dungeon-name').html($(this).data('name'));
 					});
 				});
+			});
+			$('.js-dungeon-create').click(function(e){
+				var name = $('.js-dungeon-create-name').val(),
+				    gridWidth = $('.js-dungeon-create-grid-width').val(),
+				    gridHeight = $('.js-dungeon-create-grid-height').val();
+				if(name && gridWidth && gridHeight){
+					app.execute('dungeon:create', name, gridWidth, gridHeight);
+				}else{
+					console.log('fill out the form.');
+				}
+			});
+			$('.js-dungeon-delete').click(function(e){
+				app.execute('dungeon:delete');
+			});
+			$('.js-dungeon-save').click(function(e){
+				app.execute('dungeon:save');
 			});
 		});
 	});
