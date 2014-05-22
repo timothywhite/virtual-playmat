@@ -1,6 +1,29 @@
 define(['marionette','app','module/init'], function(){
 	app.module("Dashboard", function(Dashboard, app, Backbone, Marionette, $, _){
 		$(function(){
+			var $canvasWrap = $('.canvas-wrap'), 
+			    $dungeonName = $('.js-dungeon-name'),
+			    _hide_canvas = function(){
+			        $canvasWrap.hide();
+			    },
+			    _show_canvas = function(){
+				$canvasWrap.show();
+			    },
+			    _get_canvas_width = function(){
+				return $canvasWrap.width();
+			    },
+                            _get_canvas_height = function(){
+                                return $canvasWrap.height();
+                            },
+			    _get_dungeon_name = function(){
+			    	return $dungeonName.html();
+			    },
+			    _set_dungeon_name = function(name){
+				$dungeonName.html(name);
+			    }
+			
+			app.execute('stage:resize');
+			
 			//Tool selection click events
 			$('.js-button-tool-line').click(function(){
 				app.execute('config:set', 'toolMode', 'line'); 
@@ -20,19 +43,9 @@ define(['marionette','app','module/init'], function(){
 					label: $('.js-figure-label').val()
 				});
 			});
-			app.reqres.setHandler('dashboard:name', function(){
-				return $('.js-dungeon-name').html();
-			});
-			app.commands.setHandler('dashboard:setname', function(name){
-				$('.js-dungeon-name').html(name);
-			});	
-			app.commands.setHandler('dashboard:showcanvas', function(){
-				$('.canvas-wrap').show();
-			});
-			app.commands.setHandler('dashboard:hidecanvas', function(){
-				$('.canvas-wrap').hide();
-			});
+			
 			$(window).resize(function(e){
+				$canvasWrap.height(window.innerHeight - ($('.navbar').outerHeight() + $('.controls').outerHeight())).css({'margin-top': $('.navbar').outerHeight()});
 				app.execute('stage:resize');	
 			});
 
@@ -72,6 +85,14 @@ define(['marionette','app','module/init'], function(){
 			$('.js-dungeon-save').click(function(e){
 				app.execute('dungeon:save');
 			});
+
+			app.reqres.setHandler('dashboard:name', _get_dungeon_name);
+			app.reqres.setHandler('dashboard:canvaswidth', _get_canvas_width);
+			app.reqres.setHandler('dashboard:canvasheight', _get_canvas_height);
+
+                        app.commands.setHandler('dashboard:setname', _set_dungeon_name);
+                        app.commands.setHandler('dashboard:showcanvas', _show_canvas);
+                        app.commands.setHandler('dashboard:hidecanvas', _hide_canvas);
 		});
 	});
 });

@@ -1,9 +1,9 @@
-define(['marionette', 'kinetic', 'app', 'module/init'], function(){
+define(['marionette', 'kinetic', 'app', 'module/init','module/dashboard'], function(){
 	app.module('Stage', function(Stage, app, Backbone, Marionette, $, _){
 		var stage = new Kinetic.Stage({
 			container: app.request('config','stageContainer'),
-			width: $('.canvas-wrap').width(),
-			height: $('.canvas-wrap').height(),
+			width: app.request('dashboard:canvaswidth'),
+			height: app.request('dashboard:cavasheight'),
 			draggable: true
 		});
 		app.reqres.setHandler('stage', function(){
@@ -17,8 +17,10 @@ define(['marionette', 'kinetic', 'app', 'module/init'], function(){
 			stage.add(node);
 		});
 		app.commands.setHandler('stage:resize', function(){
-			stage.width($('.canvas-wrap').width());
-			stage.height($('.canvas-wrap').height());
+			stage.width(app.request('dashboard:canvaswidth'));
+			stage.height(app.request('dashboard:canvasheight'));
+			console.log(app.request('dashboard:canvaswidth'));
+			console.log(app.request('dashboard:canvasheight'));
 		});
 	});
 });
