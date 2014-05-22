@@ -22,8 +22,6 @@ define(['marionette','app','module/init'], function(){
 				$dungeonName.html(name);
 			    }
 			
-			app.execute('stage:resize');
-			
 			//Tool selection click events
 			$('.js-button-tool-line').click(function(){
 				app.execute('config:set', 'toolMode', 'line'); 
@@ -61,8 +59,8 @@ define(['marionette','app','module/init'], function(){
 
 					$('.js-dungeon-link').click(function(e){
 						app.execute('dungeon:load', $(this).data('_id'));
-						app.execute('dashboard:setname',$(this).data('name'));
-						app.execute('dashboard:showcanvas');
+						_set_dungeon_name($(this).data('name'));
+						_show_canvas();
 					});
 				});
 			});
@@ -79,8 +77,8 @@ define(['marionette','app','module/init'], function(){
 			});
 			$('.js-dungeon-delete').click(function(e){
 				app.execute('dungeon:delete');
-				app.execute('dashboard:hidecanvas');
-				app.execute('dashboard:setname','');
+				_set_dungeon_name('');
+				_hide_canvas();
 			});
 			$('.js-dungeon-save').click(function(e){
 				app.execute('dungeon:save');
