@@ -4,6 +4,10 @@ define(['marionette', 'app', 'module/layers'], function(){
 		figureLayer = app.request('layer','figure'),
 		cellSize = app.request('config','cellSize');
 		function _init_figure(figure){
+			//figures being loaded from json need their coordinates parsed to integers.
+			figure.x(parseInt(figure.x()));
+			figure.y(parseInt(figure.y()));
+
 			figure.on('dblclick', function(e){
 				if (app.request('config', 'toolMode') == 'erase'){
 					figure.remove();
@@ -25,10 +29,12 @@ define(['marionette', 'app', 'module/layers'], function(){
 				app.vent.trigger('figure:drop', figure);
 			});
 			figure.dragBoundFunc(function(pos){
-				return {
+				stage = app.request('stage');
+				data = {
 					x: (pos.x < 0 ? 0 : pos.x > stage.getWidth() ? stage.getWidth() : pos.x),
 					y: (pos.y < 0 ? 0 : pos.y > stage.getHeight() ? stage.getHeight() : pos.y)
 				};
+				return data;
 			});
 		}
 		app.commands.setHandler('figure:add',function(options){
@@ -75,7 +81,9 @@ define(['marionette', 'app', 'module/layers'], function(){
 		app.vent.on('layer:load:figure', function(){
 			figureLayer = app.request('layer','figure');
 			figureLayer.draw();
-			figureLayer.getChildren(_init_figure);
+			figureLayer.getChildren(function(child){
+				return child.getClassName() === 'Group';
+			}).forEach(_init_figure);
 		});
 	});
 });
