@@ -12,10 +12,6 @@ define(['marionette','app','module/init'], function(){
 			$('.js-shape-color').change(function(){
 				app.execute('draw:set:shapecolor',$(this).val());
 			});
-			//load dungeon click event
-			$('.js-load-dungeon').click(function(){
-				app.execute('dungeon:load', '537039f67e168774776ebf13');
-			});
 			//add figure click event
 			$('.js-add-figure').click(function(){
 				app.execute('figure:add', {

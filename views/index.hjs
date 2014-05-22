@@ -83,9 +83,6 @@
 				<button class="btn btn-default js-button-tool-erase">Erase</button>
 			</div>
 			<div class="col-xs-2">
-				<button class="btn btn-default js-load-dungeon">Load Dungeon</button>
-			</div>
-			<div class="col-xs-2">
 				<div class="input-group">
 					<span class="input-group-addon"><i class="fa fa-minus"></i></span>
 					<input id="figure-stroke-color" type="color" value="" class="form-control js-figure-stroke-color" />
