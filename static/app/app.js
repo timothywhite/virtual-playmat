@@ -21,6 +21,7 @@ define(['marionette'],function(){
 	
 	app.start({
 		stageContainer: 'canvas',
+		scale: 1.0,
 		cellSize: 50,
 		gridWidth: 0,
 		gridHeight: 0,

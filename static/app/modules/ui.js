@@ -54,8 +54,8 @@ define(['marionette', 'app', 'module/layers'], function(){
 		hitRect.on('mousemove', function(e){
 			if (app.request('config', 'toolMode') !== 'erase'){
 				var pos = stage.getPointerPosition();
-				mousex = pos.x - stage.x();
-				mousey = pos.y - stage.y();
+				mousex = (pos.x - stage.x()) / app.request('dashboard:dungeonscale');
+				mousey = (pos.y - stage.y()) / app.request('dashboard:dungeonscale');
 				var hitCellSize = cellSize/2,
 				radius = hitCellSize / 4,
 				x1 = Math.floor(mousex / hitCellSize) * hitCellSize,
@@ -77,8 +77,8 @@ define(['marionette', 'app', 'module/layers'], function(){
 						if (hoverCircle.x() === x && hoverCircle.y() === y && hoverCircle.visible()){
 							var pos = stage.getPointerPosition()
 							if (pos){
-								mousex = pos.x - stage.x(),
-								mousey = pos.y - stage.y(),
+								mousex = (pos.x - stage.x()) / app.request('dashboard:dungeonscale'),
+								mousey = (pos.y - stage.y()) / app.request('dashboard:dungeonscale'),
 								deltax = mousex - x,
 								deltay = mousey - y,
 								delta = Math.sqrt((deltax * deltax) + (deltay * deltay));

@@ -2,26 +2,47 @@ define(['marionette','app','module/init'], function(){
 	app.module("Dashboard", function(Dashboard, app, Backbone, Marionette, $, _){
 		$(function(){
 			var $canvasWrap = $('.canvas-wrap'), 
-			    $dungeonName = $('.js-dungeon-name'),
-			    _hide_canvas = function(){
-			        $canvasWrap.hide();
-			    },
-			    _show_canvas = function(){
-				$canvasWrap.show();
-			    },
-			    _get_canvas_width = function(){
-				return $canvasWrap.width();
-			    },
-                            _get_canvas_height = function(){
-                                return $canvasWrap.height();
-                            },
-			    _get_dungeon_name = function(){
-			    	return $dungeonName.html();
-			    },
-			    _set_dungeon_name = function(name){
-				$dungeonName.html(name);
-			    }
-			
+				$dungeonName = $('.js-dungeon-name'),
+				$dungeonScale = $('.js-dungeon-scale'),
+				$dungeonGridWidth = $('.js-dungeon-grid-width'),
+				$dungeonGridHeight = $('.js-dungeon-grid-height'),
+				_hide_canvas = function(){
+					$canvasWrap.hide();
+				},
+				_show_canvas = function(){
+					$canvasWrap.show();
+				},
+				_get_canvas_width = function(){
+					return $canvasWrap.width();
+				},
+				_get_canvas_height = function(){
+					return $canvasWrap.height();
+				},
+				_get_dungeon_name = function(){
+					return $dungeonName.html();
+				},
+				_set_dungeon_name = function(name){
+					$dungeonName.html(name);
+				},
+				_get_dungeon_grid_width = function(){
+					return $dungeonGridWidth.val();
+				},
+				_set_dungeon_grid_width = function(width){
+					$dungeonGridWidth.val(width);
+				},
+				_get_dungeon_grid_height = function(){
+					return $dungeonGridHeight.val();
+				},
+				_set_dungeon_grid_height = function(height){
+					$dungeonGridHeight.val(height);
+				},
+				_get_dungeon_scale = function(){
+					return $dungeonScale.val();
+				},
+				_set_dungeon_scale = function(scale){
+					$dungeonScale.val(scale);
+				};
+				
 			//Tool selection click events
 			$('.js-button-tool-line').click(function(){
 				app.execute('config:set', 'toolMode', 'line'); 
@@ -44,9 +65,9 @@ define(['marionette','app','module/init'], function(){
 			
 			$(window).resize(function(e){
 				$canvasWrap.height(window.innerHeight - ($('.navbar').outerHeight() + $('.controls').outerHeight())).css({'margin-top': $('.navbar').outerHeight()});
-				app.execute('stage:resize');	
+				app.execute('stage:resize');
 			});
-
+			
 			$('.form-dropdown input').click(function(e){
 				e.stopPropagation();
 			});
@@ -56,11 +77,15 @@ define(['marionette','app','module/init'], function(){
 					dungeons.forEach(function(dungeon){
 						$list.append('<li><a class="js-dungeon-link" href="#" data-_id= "' + dungeon._id + '" data-name="' + dungeon.name + '">' + dungeon.name + '</a></li>');
 					});
-
+					
 					$('.js-dungeon-link').click(function(e){
-						app.execute('dungeon:load', $(this).data('_id'));
-						_set_dungeon_name($(this).data('name'));
-						_show_canvas();
+						app.execute('dungeon:load', $(this).data('_id'), function(data){
+							_set_dungeon_grid_width(data.gridWidth);
+							_set_dungeon_grid_height(data.gridHeight);
+							_set_dungeon_scale(app.request('config','scale'));
+							_set_dungeon_name(data.name);
+							_show_canvas();
+						});
 					});
 				});
 			});
@@ -70,7 +95,10 @@ define(['marionette','app','module/init'], function(){
 				    gridHeight = $('.js-dungeon-create-grid-height').val();
 				if(name && gridWidth && gridHeight){
 					app.execute('dungeon:create', name, gridWidth, gridHeight);
-					$('.canvas-wrap').show();
+					_set_dungeon_grid_width(gridWidth);
+					_set_dungeon_grid_height(gridHeight);
+					_set_dungeon_scale(app.request('config','scale'));
+					_show_canvas();
 				}else{
 					console.log('fill out the form.');
 				}
@@ -83,14 +111,30 @@ define(['marionette','app','module/init'], function(){
 			$('.js-dungeon-save').click(function(e){
 				app.execute('dungeon:save');
 			});
-
-			app.reqres.setHandler('dashboard:name', _get_dungeon_name);
+			$('.js-dungeon-grid-width').change(function(e){
+				app.execute('config:set', 'gridWidth', _get_dungeon_grid_width());
+				app.execute('grid:redraw');
+				app.execute('ui:redraw');
+			});
+			$('.js-dungeon-grid-height').change(function(e){
+				app.execute('config:set', 'gridHeight', _get_dungeon_grid_height());
+				app.execute('grid:redraw');
+				app.execute('ui:redraw');
+			});
+			$('.js-dungeon-scale').change(function(e){
+				app.execute('stage:setscale',$(this).val());
+			});
+			
+			app.reqres.setHandler('dashboard:dungeonname', _get_dungeon_name);
 			app.reqres.setHandler('dashboard:canvaswidth', _get_canvas_width);
 			app.reqres.setHandler('dashboard:canvasheight', _get_canvas_height);
-
-                        app.commands.setHandler('dashboard:setname', _set_dungeon_name);
-                        app.commands.setHandler('dashboard:showcanvas', _show_canvas);
-                        app.commands.setHandler('dashboard:hidecanvas', _hide_canvas);
+			app.reqres.setHandler('dashboard:dungeonscale', _get_dungeon_scale);
+			app.reqres.setHandler('dashboard:dungeongridwidth', _get_dungeon_grid_width);
+			app.reqres.setHandler('dashboard:dungeongridheight', _get_dungeon_grid_height);
+			
+			app.commands.setHandler('dashboard:setname', _set_dungeon_name);
+			app.commands.setHandler('dashboard:showcanvas', _show_canvas);
+			app.commands.setHandler('dashboard:hidecanvas', _hide_canvas);
 		});
 	});
 });

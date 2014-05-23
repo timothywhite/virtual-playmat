@@ -22,5 +22,9 @@ define(['marionette', 'kinetic', 'app', 'module/init','module/dashboard'], funct
 			console.log(app.request('dashboard:canvaswidth'));
 			console.log(app.request('dashboard:canvasheight'));
 		});
+		app.commands.setHandler('stage:setscale',function(scale){
+			stage.scale({x:scale,y:scale});
+			stage.draw();
+		});
 	});
 });

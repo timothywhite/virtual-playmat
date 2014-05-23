@@ -9,6 +9,7 @@ var DungeonSchema = new Schema({
 	dm: Schema.ObjectId,
 	gridWidth: Number,
 	gridHeight: Number,
+	cellSize: Number,
 	layers: {
 		draw: Object,
 		figure: Object

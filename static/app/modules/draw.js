@@ -26,8 +26,19 @@ define(['marionette', 'app', 'module/layers'], function(){
 			shapeColor = color;
 		});
 		
-		app.commands.setHandler('draw:redraw', function(){
+		app.commands.setHandler('draw:redraw', function(newCellSize, oldCellSize){
 			drawLayer = app.request('layer','draw');
+			if (newCellSize && oldCellSize){
+				newCellSize = parseInt(newCellSize);
+				oldCellSize = parseInt(oldCellSize);
+				var delta = newCellSize - oldCellSize;
+				
+				drawLayer.getChildren(function(node){
+					node.points(node.points().map(function(point){
+						return parseInt(point) + (delta * (point / oldCellSize));
+					}));
+				});
+			}
 			drawLayer.draw();
 		});
 		app.commands.setHandler('draw:sethandlers', function(){
