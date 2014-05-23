@@ -20,7 +20,7 @@
 			<script src="/build/app-build.js"></script>
 		{{/dev}}
 	{{/settings}}
-	
+	<script src="/socket.io/socket.io.js"></script>
 	<title>Virtual Playmat</title>
 	
 	

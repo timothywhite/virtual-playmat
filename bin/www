@@ -1,9 +1,8 @@
 #!/usr/bin/env node
 var debug = require('debug')('virtual-playmat');
-var app = require('../app');
+var server = require('../app'),
+port =  process.env.PORT || 3000;
 
-app.set('port', process.env.PORT || 3000);
-
-var server = app.listen(app.get('port'), function() {
+server.listen(port, function() {
   debug('Express server listening on port ' + server.address().port);
 });

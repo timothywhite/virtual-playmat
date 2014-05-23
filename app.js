@@ -8,7 +8,9 @@ var express = require('express'),
 	MongoStore = require('connect-mongo')(session),
 	restful = require('node-restful'),
 	mongoose = restful.mongoose,
-	app = module.exports = express();
+	app = express(),
+	server = module.exports = require('http').createServer(app),
+	io = require('socket.io').listen(server);
 	
 mongoose.connect('mongodb://localhost/dnd');
 app.set('db','dnd');
@@ -46,6 +48,16 @@ var users = require('./routes/users');
 app.use('/', routes);
 app.use('/users', users);
 
+/******* Socket IO ***************************************/
+
+io.sockets.on('connection', function(socket){
+	socket.emit('test', {hello: 'world'});
+	socket.on('test', function(data){
+		console.log(data);
+	});
+
+});
+
 /*******API Routes****************************************/
 var Dungeon = require('./models/dungeon');
 Dungeon.register(app, '/api/dungeons');
@@ -81,5 +93,4 @@ app.use(function(err, req, res, next) {
 		error: {}
 	});
 });
-
 
