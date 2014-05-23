@@ -1,4 +1,4 @@
-define(['marionette', 'kinetic', 'app', 'module/stage'],function(){
+define(['app', 'kinetic', 'module/stage'],function(app, Kinetic){
 	app.module('Layers', function(Layers, app, Backbone, Marionette, $, _){
 		var layers = {
 			grid: {layer: new Kinetic.Layer(), index: 0},

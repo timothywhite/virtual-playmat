@@ -1,4 +1,4 @@
-define(['marionette', 'kinetic', 'app', 'module/layers'], function(){
+define(['app', 'module/layers'], function(app){
 	app.module("Dungeon", function(Dungeon, app, Backbone, Marionette, $, _){
 		var BASE_API_URL = '/api/dungeons/',
 			currentDungeonId;

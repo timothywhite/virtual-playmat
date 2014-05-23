@@ -1,4 +1,4 @@
-define(['marionette', 'kinetic', 'app', 'module/init','module/dashboard'], function(){
+define(['app', 'kinetic', 'module/init','module/dashboard'], function(app, Kinetic){
 	app.module('Stage', function(Stage, app, Backbone, Marionette, $, _){
 		var stage = new Kinetic.Stage({
 			container: app.request('config','stageContainer'),

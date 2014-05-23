@@ -1,8 +1,9 @@
 require.config({
 	baseUrl: "assets/js",
 		paths: {
-				'app': '../../app/app',
-				'module': '../../app/modules',
+			'app': '../../app/app',
+			'module': '../../app/modules',
+			'socket.io': '../../socket.io/socket.io'
 		},
 	shim: {
 		'jquery': {
@@ -20,6 +21,9 @@ require.config({
 		},
 		'kinetic': {
 			exports: 'Kinetic'
+		},
+		'socket.io':{
+			exports: 'io'
 		}
 	}
 });
@@ -36,5 +40,6 @@ require([
 	'module/reveal',
 	'module/dashboard',
 	'module/dungeon',
-	'bootstrap'
+	'bootstrap',
+	'socket.io'
 ]);

@@ -1,4 +1,4 @@
-define(['marionette', 'app', 'module/layers'], function(){
+define(['app', 'module/layers'], function(app){
 	app.module('Draw', function(Draw, app, Backbone, Marionette, $, _){
 		var drawLayer = app.request('layer','draw'),
 			shapeColor = '#000000';

@@ -1,4 +1,4 @@
-define(['marionette', 'app', 'module/layers'], function(){
+define(['app', 'module/layers'], function(app){
 	app.module('Figures', function(Figures, app, Backbone, Marionette, $, _){
 		var stage = app.request('stage'),
 		figureLayer = app.request('layer','figure'),

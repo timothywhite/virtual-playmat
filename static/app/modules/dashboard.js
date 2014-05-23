@@ -1,4 +1,4 @@
-define(['marionette','app','module/init'], function(){
+define(['app','module/init'], function(app){
 	app.module("Dashboard", function(Dashboard, app, Backbone, Marionette, $, _){
 		$(function(){
 			var $canvasWrap = $('.canvas-wrap'), 

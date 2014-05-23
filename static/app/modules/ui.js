@@ -1,4 +1,4 @@
-define(['marionette', 'app', 'module/layers'], function(){
+define(['app', 'kinetic', 'module/layers'], function(app, Kinetic){
 	app.module('Ui', function(Ui, app, Backbone, Marionette, $, _){
 		var stage = app.request('stage'),
 		uiLayer = app.request('layer','ui'),
