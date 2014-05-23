@@ -33,6 +33,7 @@ require([
 	'module/ui', 
 	'module/draw',
 	'module/figures',
+	'module/reveal',
 	'module/dashboard',
 	'module/dungeon',
 	'bootstrap'

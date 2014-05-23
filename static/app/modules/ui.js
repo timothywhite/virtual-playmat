@@ -6,6 +6,14 @@ define(['marionette', 'app', 'module/layers'], function(){
 		cellSize = app.request('config','cellSize'),
 		gridWidth = app.request('config', 'gridWidth'),
 		gridHeight = app.request('config', 'gridHeight'),
+		_get_pointer_position = function(){
+			var pos = stage.getPointerPosition(),
+			    scale = app.request('dashboard:dungeonscale');
+			return {
+				x: (pos.x - stage.x()) / scale,
+				y: (pos.y - stage.y()) / scale
+			}
+		},
 		hoverCircle = new Kinetic.Circle({
 			x: 0,
 			y: 0,
@@ -53,10 +61,10 @@ define(['marionette', 'app', 'module/layers'], function(){
 		});
 		hitRect.on('mousemove', function(e){
 			if (app.request('config', 'toolMode') === 'line'){
-				var pos = stage.getPointerPosition();
-				mousex = (pos.x - stage.x()) / app.request('dashboard:dungeonscale');
-				mousey = (pos.y - stage.y()) / app.request('dashboard:dungeonscale');
-				var hitCellSize = cellSize/2,
+				var pos = _get_pointer_position(),
+				mousex = pos.x,
+				mousey = pos.y,
+				hitCellSize = cellSize/2,
 				radius = hitCellSize / 4,
 				x1 = Math.floor(mousex / hitCellSize) * hitCellSize,
 				x2 = Math.floor(mousex / hitCellSize) * hitCellSize + hitCellSize,
@@ -95,6 +103,11 @@ define(['marionette', 'app', 'module/layers'], function(){
 						uiLayer.draw();
 					}
 				}
+			}
+		});
+		hitRect.on('click', function(e){
+			if (app.request('config', 'toolMode') === 'reveal'){
+				app.execute('reveal:add', _get_pointer_position());
 			}
 		});
 		hitLayer.add(hitRect);

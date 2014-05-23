@@ -52,6 +52,10 @@ define(['marionette','app','module/init'], function(){
 				app.execute('config:set', 'toolMode', 'erase'); 
 				app.execute('stage:setdraggable', false);
 			});
+			$('.js-tool-reveal').click(function(){
+				app.execute('config:set', 'toolMode', 'reveal'); 
+				app.execute('stage:setdraggable', false);
+			});
 			$('.js-tool-move').click(function(){
 				app.execute('config:set', 'toolMode', 'move');
 				app.execute('stage:setdraggable', true);
