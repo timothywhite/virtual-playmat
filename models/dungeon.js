@@ -12,7 +12,8 @@ var DungeonSchema = new Schema({
 	cellSize: Number,
 	layers: {
 		draw: Object,
-		figure: Object
+		figure: Object,
+		reveal: Object
 	}
 });
 

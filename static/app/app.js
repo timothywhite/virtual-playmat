@@ -25,7 +25,7 @@ define(['marionette'],function(){
 		cellSize: 50,
 		gridWidth: 0,
 		gridHeight: 0,
-		toolMode: 'line'
+		toolMode: 'move'
 	});
 	return app;
 });

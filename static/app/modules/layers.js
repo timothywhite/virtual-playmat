@@ -5,9 +5,9 @@ define(['marionette', 'kinetic', 'app', 'module/stage'],function(){
 			hit: {layer: new Kinetic.Layer(), index: 1},
 			ui: {layer: new Kinetic.Layer(), index: 2},
 			draw: {layer: new Kinetic.Layer(), index: 3},
-			figure: {layer: new Kinetic.Layer(), index: 4}
+			figure: {layer: new Kinetic.Layer(), index: 4},
+			reveal: {layer: new Kinetic.Layer(), index: 5}
 		}
-		
 		for(name in layers){
 			app.execute('stage:add', layers[name].layer);
 			layers[name].layer.setZIndex(layers[name].index);
@@ -21,6 +21,9 @@ define(['marionette', 'kinetic', 'app', 'module/stage'],function(){
 			var layer = Kinetic.Node.create(JSON.stringify(json));
 			layers[name].layer.destroy();
 			layers[name].layer = layer;
+
+			app.vent.trigger('layer:before:load:' + name);
+
 			app.execute('stage:add', layer);
 			layer.setZIndex(layers[name].index)
 			

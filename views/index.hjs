@@ -76,40 +76,66 @@
 		<div class="controls">
 			<div class="col-xs-2">
 				<div class="input-group">
+                                        <span class="input-group-addon"><i class="fa fa-pencil fa-sm"></i></span>
+					<button class="btn btn-default form-control js-tool-line">Line</button>
+                                </div>
+				<div class="input-group">
+                                        <span class="input-group-addon"><i class="fa fa-eraser fa-sm"></i></span>
+					<button class="btn btn-default form-control js-tool-erase">Erase</button>
+                                </div>
+				<div class="input-group">
+                                        <span class="input-group-addon"><i class="fa fa-arrows fa-sm"></i></span>
+                                        <button class="btn btn-default form-control js-tool-move" >Move</button>
+                                </div>
+				<div class="input-group">
+                                        <span class="input-group-addon"><i class="fa fa-pencil-square fa-sm"></i></span>
+                                        <button class="btn btn-default form-control js-tool-reveal" >Hide/Reveal</button>
+                                </div>
+			</div>
+			<div class="col-xs-2">
+				<div class="input-group">
 					<span class="input-group-addon"><i class="fa fa-minus fa-sm"></i></span>
 					<input type="color" value="" class="form-control js-shape-color" />
 				</div>
-				<button class="btn btn-default js-button-tool-line">Line</button>
-				<button class="btn btn-default js-button-tool-erase">Erase</button>
 			</div>
 			<div class="col-xs-2">
 				<div class="input-group">
 					<span class="input-group-addon"><i class="fa fa-minus"></i></span>
-					<input id="figure-stroke-color" type="color" value="" class="form-control js-figure-stroke-color" />
+					<input type="color" value="" class="form-control js-figure-stroke-color" />
 				</div>
 				<div class="input-group">
 					<span class="input-group-addon"><i class="fa fa-tint fa-lg"></i></span>
-					<input id="figure-fill-color" type="color" value="#FFFFFF" class="form-control js-figure-fill-color" />
+					<input type="color" value="#FFFFFF" class="form-control js-figure-fill-color" />
 				</div>
 				<div class="input-group">
 					<span class="input-group-addon"><i class="fa fa-font fa-sm"></i></span>
-					<input id="figure-label" type="text" value="" class="form-control js-figure-label" />
+					<input type="text" value="" class="form-control js-figure-label" />
 				</div>
 				<button class="btn btn-default js-add-figure">Add Figure</button>
 			</div>
 			<div class="col-xs-2">
 				<div class="input-group">
 					<span class="input-group-addon"><i class="fa fa-search fa-sm"></i></span>
-					<input id="figure-label" step=".1" min="0.1" type="number" class="form-control js-dungeon-scale" />
+					<input value="1.0" step=".1" min="0.1" type="number" class="form-control js-dungeon-scale" />
 				</div>
 				<div class="input-group">
 					<span class="input-group-addon"><i class="fa fa-arrows-h fa-sm"></i></span>
-					<input id="figure-label" type="number" class="form-control js-dungeon-grid-width" />
+					<input type="number" class="form-control js-dungeon-grid-width" />
 				</div>
 				<div class="input-group">
 					<span class="input-group-addon"><i class="fa fa-arrows-v fa-sm"></i></span>
-					<input id="figure-label" type="number" class="form-control js-dungeon-grid-height" />
+					<input type="number" class="form-control js-dungeon-grid-height" />
 				</div>
+			</div>
+			<div class="col-xs-2">
+				<div class="input-group">
+                                        <span class="input-group-addon"><i class="fa fa-square-o fa-sm"></i></span>
+                                        <button class="btn btn-default form-control js-reveal-all" >Reveal All</button>
+                                </div>	
+				<div class="input-group">
+                                        <span class="input-group-addon"><i class="fa fa-square fa-sm"></i></span>
+                                        <button class="btn btn-default form-control js-hide-all" >Hide All</button>
+                                </div>
 			</div>
 		</div>
 	</div>
@@ -153,7 +179,7 @@
 			</div>
 			<div class="modal-footer">
 				<button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
-		<button type="button" class="btn btn-primary js-dungeon-create" data-dismiss="modal"><i class="fa fa-plus"></i> Create Dungeon</button>
+				<button type="button" class="btn btn-primary js-dungeon-create" data-dismiss="modal"><i class="fa fa-plus"></i> Create Dungeon</button>
 			</div>
 		</div>
 	</div>

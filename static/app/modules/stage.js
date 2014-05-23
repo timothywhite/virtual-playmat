@@ -9,6 +9,10 @@ define(['marionette', 'kinetic', 'app', 'module/init','module/dashboard'], funct
 		app.reqres.setHandler('stage', function(){
 			return stage;
 		});
+
+		app.commands.setHandler('stage:setdraggable', function(draggable){
+			stage.draggable(draggable);
+		});
 		app.commands.setHandler('stage:reset', function(){
 			stage.x(0);
 			stage.y(0);

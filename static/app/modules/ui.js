@@ -52,7 +52,7 @@ define(['marionette', 'app', 'module/layers'], function(){
 			height: gridHeight * cellSize
 		});
 		hitRect.on('mousemove', function(e){
-			if (app.request('config', 'toolMode') !== 'erase'){
+			if (app.request('config', 'toolMode') === 'line'){
 				var pos = stage.getPointerPosition();
 				mousex = (pos.x - stage.x()) / app.request('dashboard:dungeonscale');
 				mousey = (pos.y - stage.y()) / app.request('dashboard:dungeonscale');

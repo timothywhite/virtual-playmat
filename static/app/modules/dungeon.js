@@ -9,6 +9,7 @@ define(['marionette', 'kinetic', 'app', 'module/layers'], function(){
 			app.execute('config:setgrid', data.gridWidth, data.gridHeight);
 			app.execute('layer:load', 'draw', data.layers.draw);
 			app.execute('layer:load', 'figure', data.layers.figure);
+			app.execute('layer:load', 'reveal', data.layers.reveal);
 		}
 	
 		app.commands.setHandler('dungeon:load', function(id, callback){
@@ -46,7 +47,8 @@ define(['marionette', 'kinetic', 'app', 'module/layers'], function(){
 					gridHeight: app.request('dashboard:dungeongridheight'),
 					layers: {
 						draw: app.request('layer', 'draw').toObject(),
-						figure: app.request('layer', 'figure').toObject()
+						figure: app.request('layer', 'figure').toObject(),
+						reveal: app.request('layer', 'reveal').toObject()
 					}
 				},
 				success: function(data, status, xhr){

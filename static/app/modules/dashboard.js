@@ -44,11 +44,17 @@ define(['marionette','app','module/init'], function(){
 				};
 				
 			//Tool selection click events
-			$('.js-button-tool-line').click(function(){
+			$('.js-tool-line').click(function(){
 				app.execute('config:set', 'toolMode', 'line'); 
+				app.execute('stage:setdraggable', false);
 			});	
-			$('.js-button-tool-erase').click(function(){
+			$('.js-tool-erase').click(function(){
 				app.execute('config:set', 'toolMode', 'erase'); 
+				app.execute('stage:setdraggable', false);
+			});
+			$('.js-tool-move').click(function(){
+				app.execute('config:set', 'toolMode', 'move');
+				app.execute('stage:setdraggable', true);
 			});
 			//Shape stroke color change event
 			$('.js-shape-color').change(function(){
@@ -82,7 +88,6 @@ define(['marionette','app','module/init'], function(){
 						app.execute('dungeon:load', $(this).data('_id'), function(data){
 							_set_dungeon_grid_width(data.gridWidth);
 							_set_dungeon_grid_height(data.gridHeight);
-							_set_dungeon_scale(app.request('config','scale'));
 							_set_dungeon_name(data.name);
 							_show_canvas();
 						});
@@ -97,7 +102,6 @@ define(['marionette','app','module/init'], function(){
 					app.execute('dungeon:create', name, gridWidth, gridHeight);
 					_set_dungeon_grid_width(gridWidth);
 					_set_dungeon_grid_height(gridHeight);
-					_set_dungeon_scale(app.request('config','scale'));
 					_show_canvas();
 				}else{
 					console.log('fill out the form.');
