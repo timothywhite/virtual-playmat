@@ -40,6 +40,7 @@ require([
 	'module/reveal',
 	'module/dashboard',
 	'module/dungeon',
+	'module/socket',
 	'bootstrap',
 	'socket.io'
 ]);

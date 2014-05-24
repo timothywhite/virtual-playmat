@@ -9,7 +9,7 @@ define(['app', 'kinetic', 'module/init','module/dashboard'], function(app, Kinet
 		app.reqres.setHandler('stage', function(){
 			return stage;
 		});
-
+		
 		app.commands.setHandler('stage:setdraggable', function(draggable){
 			stage.draggable(draggable);
 		});
@@ -23,12 +23,12 @@ define(['app', 'kinetic', 'module/init','module/dashboard'], function(app, Kinet
 		app.commands.setHandler('stage:resize', function(){
 			stage.width(app.request('dashboard:canvaswidth'));
 			stage.height(app.request('dashboard:canvasheight'));
-			console.log(app.request('dashboard:canvaswidth'));
-			console.log(app.request('dashboard:canvasheight'));
 		});
 		app.commands.setHandler('stage:setscale',function(scale){
 			stage.scale({x:scale,y:scale});
 			stage.draw();
 		});
+		
+		app.execute('stage:resize');
 	});
 });
