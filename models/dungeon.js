@@ -1,23 +1,8 @@
 var restful = require('node-restful'),
 	mongoose = restful.mongoose,
-	Schema = mongoose.Schema,
-	ObjectId = mongoose.Types.ObjectId;
-
-
-var DungeonSchema = new Schema({
-	name: String,
-	dm: Schema.ObjectId,
-	gridWidth: Number,
-	gridHeight: Number,
-	cellSize: Number,
-	layers: {
-		draw: Object,
-		figure: Object,
-		reveal: Object
-	}
-});
-
-var Dungeon = restful.model('dungeons', DungeonSchema);
+	ObjectId = mongoose.Types.ObjectId,
+	DungeonSchema = require('../schemas/dungeon'),
+	Dungeon = restful.model('dungeons', DungeonSchema);
 
 Dungeon.methods(['get','post','put','delete'])
 	.route('search', function(req, res){
