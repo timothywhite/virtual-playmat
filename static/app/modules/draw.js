@@ -8,6 +8,7 @@ define(['app', 'module/layers'], function(app){
 				if(app.request('config', 'toolMode') === 'erase'){
 					this.remove();
 					drawLayer.draw();
+					app.vent.trigger('draw:update');
 				}
 			});
 		};
@@ -21,6 +22,7 @@ define(['app', 'module/layers'], function(app){
 			_set_event_handlers(line);
 			drawLayer.add(line);
 			drawLayer.draw();
+			app.vent.trigger('draw:update');
 		});
 		app.commands.setHandler('draw:set:shapecolor', function(color){
 			shapeColor = color;

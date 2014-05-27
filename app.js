@@ -66,7 +66,18 @@ io.sockets.on('connection', function(socket){
 		});
 	});
 	socket.on('update', function(data){
-		//send dungeon
+		var update = {};
+		for (layer in data.layers){
+			update['dungeon.layers.' + layer] = data.layers[layer];
+		}
+		Adventure.update({_id: data.id}, update, {},  function(err, adventure){
+			socket.broadcast.to(data.id).emit('update', data.layers);
+		});
+	});
+	socket.on('change dungeon', function(data){
+		Adventure.update({_id: data.id}, {dungeon: data.dungeon}, {}, function(err, adventure){
+			socket.broadcast.to(data.id).emit('change dungeon', data.dungeon);
+		});
 	});
 
 });

@@ -8,14 +8,14 @@ mongoose.connect(connStr, function(err) {
  
 // create a user a new user
 var user = new User({
-	username: 'tim',
-	password: 'tim'
+	username: 'bobby',
+	password: 'bobby'
 });
 
 // save user to database
 user.save(function(err) {
 	if (err) throw err;
 	console.log('User created');
+	process.exit();
 });
 
-process.exit();

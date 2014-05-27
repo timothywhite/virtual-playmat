@@ -26,12 +26,14 @@ define(['app', 'module/layers'], function(app){
 		app.commands.setHandler('dungeon:load', function(dungeon, callback){
 			if (typeof dungeon === 'object'){
 				_load_dungeon(dungeon);
-				if (callback) callback(dungeon);	
+				if (callback) callback(dungeon);
+				app.vent.trigger('dungeon:load');	
 			} else {
 				$.get('/api/dungeons/' + dungeon, function(data, status, xhr){
 					console.log(data);
 					_load_dungeon(data);
 					if (callback) callback(data);
+					app.vent.trigger('dungeon:load');
 				}, 'json');
 			}
 		});

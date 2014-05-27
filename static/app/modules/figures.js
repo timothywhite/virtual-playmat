@@ -12,6 +12,7 @@ define(['app', 'module/layers'], function(app){
 				if (app.request('config', 'toolMode') == 'erase'){
 					figure.remove();
 					figureLayer.draw();
+					app.vent.trigger('figure:update');
 				}
 			});
 			figure.on('dragstart', function(e){
@@ -26,7 +27,7 @@ define(['app', 'module/layers'], function(app){
 				this.x(x);
 				this.y(y);
 				figureLayer.draw();
-				app.vent.trigger('figure:drop', figure);
+				app.vent.trigger('figure:update', figure);
 			});
 			figure.dragBoundFunc(function(pos){
 				stage = app.request('stage');
@@ -66,6 +67,7 @@ define(['app', 'module/layers'], function(app){
 			_init_figure(figure);
 			figureLayer.add(figure);
 			figureLayer.draw();
+			app.vent.trigger('figure:update');
 		});
 		
 		app.commands.setHandler('figure:redraw', function(){
