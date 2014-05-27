@@ -8,8 +8,8 @@ mongoose.connect(connStr, function(err) {
  
 // create a user a new user
 var user = new User({
-	username: 'bobby',
-	password: 'bobby'
+	username: 'jig',
+	password: 'jig'
 });
 
 // save user to database
