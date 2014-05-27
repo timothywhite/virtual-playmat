@@ -48,19 +48,28 @@ var users = require('./routes/users');
 app.use('/', routes);
 app.use('/users', users);
 
-/******* Socket IO ***************************************/
-
-io.sockets.on('connection', function(socket){
-	socket.emit('test', {hello: 'world'});
-	socket.on('test', function(data){
-		console.log(data);
-	});
-
-});
-
 /*******API Routes****************************************/
 var Dungeon = require('./models/dungeon');
 Dungeon.register(app, '/api/dungeons');
+
+var Adventure = require('./models/adventure');
+Adventure.register(app, '/api/adventures');
+
+/******* Socket IO ***************************************/
+io.sockets.on('connection', function(socket){
+	socket.on('join', function(data){
+		socket.join(data.adventure);
+		socket.set('adventure', data.adventure, function(){
+			Adventure.findById(data.adventure, function(err, adventure){
+				socket.emit('ready', adventure);
+			});
+		});
+	});
+	socket.on('update', function(data){
+		//send dungeon
+	});
+
+});
 
 /******Error Handling**************************************/
 /// catch 404 and forwarding to error handler

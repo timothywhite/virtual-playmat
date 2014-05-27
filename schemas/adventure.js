@@ -3,8 +3,9 @@ var mongoose = require('mongoose'),
 	DungeonSchema = require('./dungeon');
 	
 var AdventureSchema = new Schema({
+	name: String,
 	dm: Schema.ObjectId,
-	dungeon: DungeonSchema
+	dungeon: Object
 });
 
 module.exports = AdventureSchema;

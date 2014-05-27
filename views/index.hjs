@@ -51,15 +51,27 @@
 						</div>
 					</div>
 				</li>
-				<li><a href="#about">Games</a></li>
+				<li class="dropdown">
+					<a href="#" class="dropdown-toggle" data-toggle="dropdown">Adventures</a>
+					<div class="dropdown-menu">
+						<div class="form-dropdown">
+							<button class="btn btn-primary" data-toggle="modal" data-target="#create-adventure"> <i class="fa fa-plus"></i> New Adventure</button>
+							<div class="input-group">
+								<span class="input-group-addon"><i class="fa fa-search fa-sm"></i></span>
+								<input type="text" value="" class="form-control js-adventure-search" />
+							</div>
+							<ul class="js-adventure-results"></ul>
+						</div>
+					</div>
+				</li>
 			</ul>
-			<ul class="nav navbar-nav navbar-right js-dungeon-top-nav">
+			<ul class="nav navbar-nav navbar-right">
 				<li><a class="js-dungeon-name" contenteditable></a></li>
 				<li>
-					<button class="btn btn-success js-dungeon-save"> <i class="fa fa-save"></i> Save</button>
+					<button class="btn btn-success js-dungeon-savei js-dungeon-top-nav hidden"> <i class="fa fa-save"></i> Save</button>
 				</li>
 				<li>
-					<button class="btn btn-danger" data-toggle="modal" data-target="#confirm-delete" > <i class="fa fa-times"></i> Delete</button>
+					<button class="btn btn-danger js-dungeon-top-nav hidden" data-toggle="modal" data-target="#confirm-delete" > <i class="fa fa-times"></i> Delete</button>
 				</li>
 			</ul>
 		</div><!--/.nav-collapse -->
@@ -72,7 +84,7 @@
 		</div>
 	</div>
 	<div class="row">
-		<div class="controls">
+		<div class="controls hidden">
 			<div class="col-xs-2">
 				<div class="input-group">
                                         <span class="input-group-addon"><i class="fa fa-pencil fa-sm"></i></span>
@@ -167,11 +179,11 @@
 					<span class="input-group-addon"><i class="fa fa-font fa-sm"></i></span>
 					<input  type="text" value="" class="form-control js-dungeon-create-name" />
 				</div>
-		<div class="input-group">
+				<div class="input-group">
 					<span class="input-group-addon"><i class="fa fa-arrows-h fa-sm"></i></span>
 					<input  type="number" value="15" class="form-control js-dungeon-create-grid-width" />
 				</div>
-		<div class="input-group">
+				<div class="input-group">
 					<span class="input-group-addon"><i class="fa fa-arrows-v fa-sm"></i></span>
 					<input  type="number" value="15" class="form-control js-dungeon-create-grid-height" />
 				</div>
@@ -179,6 +191,25 @@
 			<div class="modal-footer">
 				<button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
 				<button type="button" class="btn btn-primary js-dungeon-create" data-dismiss="modal"><i class="fa fa-plus"></i> Create Dungeon</button>
+			</div>
+		</div>
+	</div>
+</div>
+<div class="modal fade" id="create-adventure" tabindex="-1" role="dialog" aria-hidden="true">
+	<div class="modal-dialog">
+		<div class="modal-content">
+			<div class="modal-header">
+				New Adventure
+			</div>
+			<div class="modal-body">
+				<div class="input-group">
+					<span class="input-group-addon"><i class="fa fa-font fa-sm"></i></span>
+					<input  type="text" value="" class="form-control js-adventure-create-name" />
+				</div>
+			</div>
+			<div class="modal-footer">
+				<button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+				<button type="button" class="btn btn-primary js-adventure-create" data-dismiss="modal"><i class="fa fa-plus"></i> Create Adventure</button>
 			</div>
 		</div>
 	</div>
