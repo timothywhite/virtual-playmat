@@ -17,7 +17,8 @@ define(['app', 'module/layers'], function(app){
 			var line = new Kinetic.Line({
 				points: points,
 				stroke: shapeColor,
-				strokeWidth: 4
+				strokeWidth: 4,
+				lineCap: 'round'
 			});
 			_set_event_handlers(line);
 			drawLayer.add(line);
