@@ -89,7 +89,12 @@ define(['app','module/init'], function(app){
 					label: $('.js-figure-label').val()
 				});
 			});
-			
+			$('.js-reveal-all').click(function(){
+				app.execute('reveal:all');
+			});
+			$('.js-hide-all').click(function(){
+				app.execute('reveal:none');
+			});
 			$(window).resize(function(e){
 				_size_canvas();
 			});
