@@ -170,7 +170,11 @@ define(['app','module/init'], function(app){
 			$('.js-dungeon-scale').change(function(e){
 				app.execute('stage:setscale',$(this).val());
 			});
-			
+			$(window).bind('mousewheel', function(e){
+				delta = Math.floor(e.originalEvent.wheelDelta / 120) / 10;
+				$('.js-dungeon-scale').val(Math.max(0, parseFloat($('.js-dungeon-scale').val()) + delta));
+				$('.js-dungeon-scale').change();
+			});
 			$('.js-adventure-create').click(function(e){
 				var name = $('.js-adventure-create-name').val();
 				if (name){
