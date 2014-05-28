@@ -2,11 +2,11 @@
         baseUrl: "../assets/js",
 	out: 'app-build.js',
 	name: '../../main',
-
         paths: {
                 'app': '../../app/app',
                 'module': '../../app/modules',
-		'requireLib': 'require'
+		'requireLib': 'require',
+		'socket.io': '../../../node_modules/socket.io/node_modules/socket.io-client/dist/socket.io'
         },
         shim: {
                 'jquery': {
@@ -24,6 +24,9 @@
                 },
                 'kinetic': {
                         exports: 'Kinetic'
+                },
+                'socket.io':{
+                        exports: 'io'
                 }
         },
 	include: 'requireLib'
