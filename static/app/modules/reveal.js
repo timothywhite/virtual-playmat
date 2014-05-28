@@ -43,6 +43,7 @@ define(['app', 'kinetic', 'module/layers'], function(app, Kinetic){
 			revealLayer.removeChildren();
 			revealLayer.draw();
 			app.vent.trigger('reveal:update');
+			app.execute('figure:reveal:all');
 		});
 		app.commands.setHandler('reveal:none', function(){
 			var revealLayer = app.request('layer', 'reveal'),
@@ -58,6 +59,7 @@ define(['app', 'kinetic', 'module/layers'], function(app, Kinetic){
 			}
 			revealLayer.draw();
 			app.vent.trigger('reveal:update');
+			app.execute('figure:reveal:none');
 		});
 		app.vent.on('layer:before:load:reveal', function(){
 			app.request('layer','reveal').getChildren(_init_square);

@@ -90,6 +90,26 @@ define(['app', 'module/layers'], function(app){
 			figureLayer.getChildren(_init_figure);
 		});
 		
+		app.commands.setHandler('figure:reveal:all', function(){
+			var figureLayer = app.request('layer', 'figure');
+			console.log('reveal:all');
+			figureLayer.getChildren(function(figure){
+				figure.opacity(1);
+			});
+			figureLayer.draw();
+			app.vent.trigger('figure:update');
+			
+		});
+
+		app.commands.setHandler('figure:reveal:none', function(){
+			var figureLayer = app.request('layer', 'figure');
+			figureLayer.getChildren(function(figure){
+                                figure.opacity(0.5);
+                        });
+			figureLayer.draw();
+			app.vent.trigger('figure:update');
+		});
+
 		app.vent.on('layer:load:figure', function(){
 			figureLayer = app.request('layer','figure');
 			figureLayer.getChildren(function(child){
