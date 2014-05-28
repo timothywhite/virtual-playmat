@@ -8,6 +8,10 @@ define(['app','module/init'], function(app){
 				$dungeonGridHeight = $('.js-dungeon-grid-height'),
 				$dungeonControls = $('.controls'),
 				$dungeonTopNav = $('.js-dungeon-top-nav'),
+				$adventureTopNav = $('.js-adventure-top-nav'),
+				$adventureName = $('.js-adventure-name'),
+				$dmOnly = $('.js-dm-only'),
+				previousToolMode,
 				_hide_canvas = function(){
 					$canvasWrap.hide();
 				},
@@ -76,6 +80,19 @@ define(['app','module/init'], function(app){
 			$('.js-tool-move').click(function(){
 				app.execute('config:set', 'toolMode', 'move');
 				app.execute('stage:setdraggable', true);
+			});
+			$(window).keydown(function(e){
+				if (e.keyCode === 16){
+					previousToolMode = app.request('config', 'toolMode');
+					app.execute('config:set', 'toolMode', 'move');
+					app.execute('stage:setdraggable', true);
+				}
+			});
+			$(window).keyup(function(e){
+				if (e.keyCode === 16){
+                                        app.execute('config:set', 'toolMode', previousToolMode);
+					app.execute('stage:setdraggable', false);
+                                }
 			});
 			//Shape stroke color change event
 			$('.js-shape-color').change(function(){
