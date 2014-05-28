@@ -5,8 +5,8 @@ define(['app', 'kinetic', 'module/stage'],function(app, Kinetic){
 			hit: {layer: new Kinetic.Layer(), index: 1},
 			ui: {layer: new Kinetic.Layer(), index: 2},
 			draw: {layer: new Kinetic.Layer(), index: 3},
-			figure: {layer: new Kinetic.Layer(), index: 4},
-			reveal: {layer: new Kinetic.Layer(), index: 5}
+			reveal: {layer: new Kinetic.Layer(), index: 4},
+			figure: {layer: new Kinetic.Layer(), index: 5},
 		}
 		for(name in layers){
 			app.execute('stage:add', layers[name].layer);

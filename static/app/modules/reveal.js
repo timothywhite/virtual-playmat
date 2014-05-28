@@ -17,19 +17,19 @@ define(['app', 'kinetic', 'module/layers'], function(app, Kinetic){
 		},
 		_build_square = function(pos){
 			var cellSize = app.request('config', 'cellSize'),
-                                x = Math.floor(pos.x / cellSize) * cellSize,
-                                y = Math.floor(pos.y / cellSize) * cellSize,
-                                square = new Kinetic.Rect({
-                                        width: cellSize,
-                                        height: cellSize,
-                                        x: x,
-                                        y: y,
-                                        fill: 'grey',
-                                        stroke: 'grey',
-                                        strokeWidth: 1,
-                                        opacity: .5
-                                });
-                        _init_square(square);
+			x = Math.floor(pos.x / cellSize) * cellSize,
+			y = Math.floor(pos.y / cellSize) * cellSize,
+			square = new Kinetic.Rect({
+				width: cellSize,
+				height: cellSize,
+				x: x,
+				y: y,
+				fill: 'grey',
+				stroke: 'grey',
+				strokeWidth: 1,
+				opacity: .5
+			});
+			_init_square(square);
 			return square;
 		};
 		app.commands.setHandler('reveal:add', function(pos){
@@ -59,9 +59,8 @@ define(['app', 'kinetic', 'module/layers'], function(app, Kinetic){
 			revealLayer.draw();
 			app.vent.trigger('reveal:update');
 		});
-
 		app.vent.on('layer:before:load:reveal', function(){
-			app.request('layer','reveal').getChildren(_init_square);			
+			app.request('layer','reveal').getChildren(_init_square);
 		});
 	});
 });

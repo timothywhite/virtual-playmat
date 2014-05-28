@@ -7,17 +7,26 @@ define(['app', 'module/layers'], function(app){
 			//figures being loaded from json need their coordinates parsed to integers.
 			figure.x(parseInt(figure.x()));
 			figure.y(parseInt(figure.y()));
-
-			figure.on('dblclick', function(e){
+			if (app.request('adventure:isjoined') && !app.request('adventure:isdm')){
+				if(parseFloat(figure.opacity()) === 0.5){
+					figure.opacity(0);
+				} else {
+					figure.opacity(1);
+				}
+			}
+			figure.on('click', function(e){
 				if (app.request('config', 'toolMode') == 'erase'){
 					figure.remove();
+					figureLayer.draw();
+					app.vent.trigger('figure:update');
+				} else if (app.request('config', 'toolMode') === 'reveal'){
+					figure.opacity(figure.opacity() === 1 ? 0.5 : 1);
 					figureLayer.draw();
 					app.vent.trigger('figure:update');
 				}
 			});
 			figure.on('dragstart', function(e){
 				figure.moveToTop();
-				app.vent.trigger('figure:pickup', figure);
 			});
 			figure.on('dragend', function(e){
 				var posx = this.x() + cellSize / 2,
@@ -42,7 +51,8 @@ define(['app', 'module/layers'], function(app){
 			figureLayer = app.request('layer','figure');
 			cellSize = app.request('config','cellSize');
 			figure = new Kinetic.Group({
-				draggable:true
+				draggable:true,
+				opacity: 1
 			});
 			background = new Kinetic.Circle({
 				x: cellSize / 2,
@@ -82,10 +92,10 @@ define(['app', 'module/layers'], function(app){
 		
 		app.vent.on('layer:load:figure', function(){
 			figureLayer = app.request('layer','figure');
-			figureLayer.draw();
 			figureLayer.getChildren(function(child){
 				return child.getClassName() === 'Group';
 			}).forEach(_init_figure);
+			figureLayer.draw();
 		});
 	});
 });
