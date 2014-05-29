@@ -58,9 +58,9 @@ Adventure.register(app, '/api/adventures');
 /******* Socket IO ***************************************/
 io.sockets.on('connection', function(socket){
 	socket.on('join', function(data){
-		socket.join(data.adventure);
-		socket.set('adventure', data.adventure, function(){
-			Adventure.findById(data.adventure, function(err, adventure){
+		socket.join(data.id);
+		socket.set('adventure', data.id, function(){
+			Adventure.findById(data.id, function(err, adventure){
 				socket.emit('ready', adventure);
 			});
 		});
@@ -77,6 +77,11 @@ io.sockets.on('connection', function(socket){
 	socket.on('change dungeon', function(data){
 		Adventure.update({_id: data.id}, {dungeon: data.dungeon}, {}, function(err, adventure){
 			socket.broadcast.to(data.id).emit('change dungeon', data.dungeon);
+		});
+	});
+	socket.on('end', function(data){
+		Adventure.findByIdAndRemove(data.id, {}, function(err, adventure){
+			socket.broadcast.to(data.id).emit('end');
 		});
 	});
 

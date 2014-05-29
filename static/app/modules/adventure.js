@@ -5,13 +5,27 @@ define(['app', 'socket.io', 'module/init'], function(app, io){
 			isDm = false,
 			socket, readyCallback, currentAdventureId,
 		_join_adventure = function(id){
-			socket.emit('join', {adventure:id});
+			socket.emit('join', {id:id});
+		},
+		_leave_adventure = function(){
+			socket.emit('leave', {
+				id: currentAdventureId
+			});
+			_disconnect();
+			isJoined = false
+		},
+		_end_adventure = function(){
+			socket.emit('end', {
+				id: currentAdventureId
+			});
+			_leave_adventure();
+			app.vent.trigger('adventure:leave');
 		},
 		_ready = function(data){
 			currentAdventureId = data._id;
 			isJoined = true;
 			isDm = localStorage.getItem('user_id') === data.dm;
-			if(readyCallback) readyCallback(data.dungeon);
+			if(readyCallback) readyCallback(data);
 			app.execute('dungeon:load', data.dungeon);
 			socket.on('update', function(data){
 				for(layer in data){
@@ -21,11 +35,22 @@ define(['app', 'socket.io', 'module/init'], function(app, io){
 			socket.on('change dungeon', function(data){
 				app.execute('dungeon:load', data);
 			});
+			socket.on('end', function(data){
+				_leave_adventure();
+				app.vent.trigger('adventure:leave');
+			});
 		},
 		_connect = function(){
-			if (!socket) socket = io.connect('http://timwhite.org:8001');
+			if (!socket) {
+				socket = io.connect('http://timwhite.org:8001');
+			}else if (!socket.socket.connected){
+				socket = io.connect('http://timwhite.org:8001',{'force new connection':true});
+			}
 			socket.on('ready', _ready);
 		};
+		_disconnect = function(){
+			if(socket && socket.socket.connected) socket.disconnect();
+		},
 		app.vent.on('draw:update', function(){
 			if(isJoined){
 				socket.emit('update', {
@@ -81,12 +106,19 @@ define(['app', 'socket.io', 'module/init'], function(app, io){
 			readyCallback = callback;
 			_join_adventure(id);
 		});
+		app.commands.setHandler('adventure:leave', function(){
+			_leave_adventure();
+			app.vent.trigger('adventure:leave');
+		});
+		app.commands.setHandler('adventure:end', function(){
+			_end_adventure();
+		});
 		app.reqres.setHandler('adventure:search', function(name, callback){
-                        $.get(BASE_API_URL + 'search?name=' + name, function(data, status, xhr){
-                                console.log(data);
-                                callback(data);
-                        }, 'json');
-                });	
+			$.get(BASE_API_URL + 'search?name=' + name, function(data, status, xhr){
+				console.log(data);
+				callback(data);
+			}, 'json');
+		});
 		app.reqres.setHandler('adventure:isdm', function(){
 			return isDm;
 		});

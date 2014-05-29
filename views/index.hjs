@@ -39,7 +39,7 @@
 		<div class="collapse navbar-collapse">
 			<ul class="nav navbar-nav navbar-left">
 				<li class="dropdown">
-					<a href="#" class="dropdown-toggle" data-toggle="dropdown">Dungeons</a>
+					<a href="#" class="dropdown-toggle js-dungeon-menu" data-toggle="dropdown">Dungeons</a>
 					<div class="dropdown-menu">
 						<div class="form-dropdown">
 							<button class="btn btn-primary" data-toggle="modal" data-target="#create-dungeon"> <i class="fa fa-plus"></i> New Dungeon</button>
@@ -52,7 +52,7 @@
 					</div>
 				</li>
 				<li class="dropdown">
-					<a href="#" class="dropdown-toggle" data-toggle="dropdown">Adventures</a>
+					<a href="#" class="dropdown-toggle js-adventure-menu" data-toggle="dropdown">Adventures</a>
 					<div class="dropdown-menu">
 						<div class="form-dropdown">
 							<button class="btn btn-primary" data-toggle="modal" data-target="#create-adventure"> <i class="fa fa-plus"></i> New Adventure</button>
@@ -65,13 +65,22 @@
 					</div>
 				</li>
 			</ul>
-			<ul class="nav navbar-nav navbar-right">
-				<li><a class="js-dungeon-name" contenteditable></a></li>
+			<ul class="nav navbar-nav navbar-right js-adventure-top-nav hidden">
+				<li><a class="js-adventure-name js-dm-only" contenteditable></a></li>
 				<li>
-					<button class="btn btn-success js-dungeon-savei js-dungeon-top-nav hidden"> <i class="fa fa-save"></i> Save</button>
+					<button class="btn btn-warning js-adventure-leave"> <i class="fa fa-sign-out"></i> Leave Adventure</button>
 				</li>
 				<li>
-					<button class="btn btn-danger js-dungeon-top-nav hidden" data-toggle="modal" data-target="#confirm-delete" > <i class="fa fa-times"></i> Delete</button>
+					<button class="btn btn-danger js-dm-only" data-toggle="modal" data-target="#confirm-end-adventure" > <i class="fa fa-times"></i> End Adventure</button>
+				</li>
+			</ul>
+			<ul class="nav navbar-nav navbar-right js-dungeon-top-nav hidden">
+				<li><a class="js-dungeon-name" contenteditable></a></li>
+				<li>
+					<button class="btn btn-success js-dungeon-save"> <i class="fa fa-save"></i> Save</button>
+				</li>
+				<li>
+					<button class="btn btn-danger" data-toggle="modal" data-target="#confirm-delete" > <i class="fa fa-times"></i> Delete</button>
 				</li>
 			</ul>
 		</div><!--/.nav-collapse -->
@@ -164,6 +173,22 @@
 			<div class="modal-footer">
 				<button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
 				<a href="#" class="btn btn-danger danger js-dungeon-delete" data-dismiss="modal"><i class="fa fa-times"></i> Delete</a>
+			</div>
+		</div>
+	</div>
+</div>
+<div class="modal fade" id="confirm-end-adventure" tabindex="-1" role="dialog" aria-hidden="true">
+	<div class="modal-dialog">
+		<div class="modal-content">
+			<div class="modal-header">
+				Confirm End
+			</div>
+			<div class="modal-body">
+				Are you sure?
+			</div>
+			<div class="modal-footer">
+				<button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+				<a href="#" class="btn btn-danger danger js-adventure-end" data-dismiss="modal"><i class="fa fa-times"></i> Delete</a>
 			</div>
 		</div>
 	</div>

@@ -24,6 +24,10 @@ define(['app', 'kinetic', 'module/init','module/dashboard'], function(app, Kinet
 			stage.width(app.request('dashboard:canvaswidth'));
 			stage.height(app.request('dashboard:canvasheight'));
 		});
+		
+		app.reqres.setHandler('stage:scale', function(){
+			return stage.scale();
+		});
 		app.commands.setHandler('stage:setscale',function(scale){
 			stage.scale({x:scale,y:scale});
 			stage.draw();
