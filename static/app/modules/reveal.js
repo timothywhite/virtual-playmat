@@ -1,19 +1,32 @@
 define(['app', 'kinetic', 'module/layers'], function(app, Kinetic){
         app.module('Ui', function(Ui, app, Backbone, Marionette, $, _){
-		var _init_square = function(square){
+		var isRevealing = false,
+		_init_square = function(square){
 			
 			if (app.request('adventure:isjoined') && !app.request('adventure:isdm')){
 				square.fill('white');
 				square.stroke('grey');
 				square.opacity(1);
 			}
-			square.on('click', function(e){
+			square.on('mousedown', function(e){
 				if (app.request('config', 'toolMode') === 'reveal'){
                                 	this.remove();
+					isRevealing = true;
                                 	app.request('layer','reveal').draw();
 					app.vent.trigger('reveal:update');
 				}
+				return true;
                         });
+			square.on('mousemove', function(e){
+				if (isRevealing){
+					this.remove();
+					app.request('layer', 'reveal').draw();
+					app.vent.trigger('reveal:update');
+				}
+			});
+			square.on('mouseup', function(e){
+				app.execute('ui:stophiding');
+			});
 		},
 		_build_square = function(pos){
 			var cellSize = app.request('config', 'cellSize'),
@@ -60,6 +73,9 @@ define(['app', 'kinetic', 'module/layers'], function(app, Kinetic){
 			revealLayer.draw();
 			app.vent.trigger('reveal:update');
 			app.execute('figure:reveal:none');
+		});
+		app.commands.setHandler('reveal:stoprevealing', function(){
+			isRevealing = false;
 		});
 		app.vent.on('layer:before:load:reveal', function(){
 			app.request('layer','reveal').getChildren(_init_square);

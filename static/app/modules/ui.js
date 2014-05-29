@@ -6,6 +6,7 @@ define(['app', 'kinetic', 'module/layers'], function(app, Kinetic){
 		cellSize = app.request('config','cellSize'),
 		gridWidth = app.request('config', 'gridWidth'),
 		gridHeight = app.request('config', 'gridHeight'),
+		isHiding = false,
 		_get_pointer_position = function(){
 			var pos = stage.getPointerPosition(),
 			    scale = app.request('dashboard:dungeonscale');
@@ -14,6 +15,15 @@ define(['app', 'kinetic', 'module/layers'], function(app, Kinetic){
 				y: (pos.y - stage.y()) / scale
 			}
 		},
+		_get_cell_under_pointer = function(){
+			var pos = _get_pointer_position(),
+			x = Math.floor(pos.x / cellSize) * cellSize,
+                        y = Math.floor(pos.y / cellSize) * cellSize
+			return {
+				x: x,
+				y: y
+			}
+		}
 		hoverCircle = new Kinetic.Circle({
 			x: 0,
 			y: 0,
@@ -60,6 +70,9 @@ define(['app', 'kinetic', 'module/layers'], function(app, Kinetic){
 			height: gridHeight * cellSize
 		});
 		hitRect.on('mousemove', function(e){
+			if (isHiding){
+				app.execute('reveal:add', _get_pointer_position());
+			}
 			if (app.request('config', 'toolMode') === 'line'){
 				var pos = _get_pointer_position(),
 				mousex = pos.x,
@@ -105,9 +118,18 @@ define(['app', 'kinetic', 'module/layers'], function(app, Kinetic){
 				}
 			}
 		});
-		hitRect.on('click', function(e){
+		hitRect.on('mousedown', function(e){
 			if (app.request('config', 'toolMode') === 'reveal'){
 				app.execute('reveal:add', _get_pointer_position());
+				isHiding = true;
+			}
+		});
+		hitRect.on('mouseup', function(e){
+			app.execute('reveal:stoprevealing');
+		});
+		app.commands.setHandler('ui:stophiding', function(){
+			if (isHiding){
+				isHiding = false;
 			}
 		});
 		hitLayer.add(hitRect);
