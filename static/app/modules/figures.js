@@ -47,8 +47,8 @@ define(['app', 'module/layers'], function(app){
 				return data;
 			});
 		}
-		app.commands.setHandler('figure:add',function(options){
-			figureLayer = app.request('layer','figure');
+
+		function _build_figure(options){
 			cellSize = app.request('config','cellSize');
 			figure = new Kinetic.Group({
 				draggable:true,
@@ -74,22 +74,33 @@ define(['app', 'module/layers'], function(app){
 			});
 			figure.add(background);
 			figure.add(label);
+
+			return figure;
+		}
+
+		app.reqres.setHandler('figure:new', function(options){
+			return _build_figure(options);
+		});
+
+		app.commands.setHandler('figure:add',function(options){
+			figureLayer = app.request('layer','figure');
+			figure = _build_figure(options);
 			_init_figure(figure);
 			figureLayer.add(figure);
 			figureLayer.draw();
 			app.vent.trigger('figure:update');
 		});
-		
+
 		app.commands.setHandler('figure:redraw', function(){
 			figureLayer = app.request('layer','figure');
 			figureLayer.draw();
 		});
-		
+
 		app.commands.setHandler('figure:sethandlers', function(){
 			figureLayer = app.request('layer','figure');
 			figureLayer.getChildren(_init_figure);
 		});
-		
+
 		app.commands.setHandler('figure:reveal:all', function(){
 			var figureLayer = app.request('layer', 'figure');
 			console.log('reveal:all');
@@ -98,7 +109,7 @@ define(['app', 'module/layers'], function(app){
 			});
 			figureLayer.draw();
 			app.vent.trigger('figure:update');
-			
+
 		});
 
 		app.commands.setHandler('figure:reveal:none', function(){

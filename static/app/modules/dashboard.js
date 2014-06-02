@@ -1,7 +1,7 @@
 define(['app','module/init'], function(app){
 	app.module("Dashboard", function(Dashboard, app, Backbone, Marionette, $, _){
 		$(function(){
-			var $canvasWrap = $('.canvas-wrap'), 
+			var $canvasWrap = $('.canvas-wrap'),
 				$dungeonName = $('.js-dungeon-name'),
 				$dungeonScale = $('.js-dungeon-scale'),
 				$dungeonGridWidth = $('.js-dungeon-grid-width'),
@@ -118,18 +118,18 @@ define(['app','module/init'], function(app){
                                         _show_controls();
                                         _show_canvas();
 				};
-				
+
 			//Tool selection events
 			$('.js-tool-line').click(function(){
-				app.execute('config:set', 'toolMode', 'line'); 
+				app.execute('config:set', 'toolMode', 'line');
 				app.execute('stage:setdraggable', false);
-			});	
+			});
 			$('.js-tool-erase').click(function(){
-				app.execute('config:set', 'toolMode', 'erase'); 
+				app.execute('config:set', 'toolMode', 'erase');
 				app.execute('stage:setdraggable', false);
 			});
 			$('.js-tool-reveal').click(function(){
-				app.execute('config:set', 'toolMode', 'reveal'); 
+				app.execute('config:set', 'toolMode', 'reveal');
 				app.execute('stage:setdraggable', false);
 			});
 			$('.js-tool-move').click(function(){
@@ -156,11 +156,46 @@ define(['app','module/init'], function(app){
 			//add figure click event
 			$('.js-add-figure').click(function(){
 				app.execute('figure:add', {
-					fill: $('.js-figure-fill-color').val(), 
-					stroke: $('.js-figure-stroke-color').val(), 
+					fill: $('.js-figure-fill-color').val(),
+					stroke: $('.js-figure-stroke-color').val(),
 					label: $('.js-figure-label').val()
 				});
 			});
+			$('.js-save-figure').click(function(e){
+				var cellSize = app.request('config', 'cellSize'),
+				figureOptions = {
+					fill: $('.js-figure-fill-color').val(),
+					stroke: $('.js-figure-stroke-color').val(),
+					label: $('.js-figure-label').val()
+				},
+				figure = app.request('figure:new', figureOptions);
+				figureLayer = app.request('layer', 'figure');
+				figureLayer.add(figure);
+				dataUrl = figure.toDataURL({
+					width: cellSize,
+					height: cellSize
+				});
+				figure.remove();
+				$element = $('<li><a class="js-load-figure" data-stroke="' + figureOptions.stroke + '" data-fill="' + figureOptions.fill + '" data-label="' + figureOptions.label + '"><img src="' + dataUrl + '"></a></li>');
+				$('.js-saved-figures').append($element);
+				$element
+					.find('.js-load-figure')
+						.click(function(e){
+							var $this = $(this);
+							$('.js-figure-fill-color').val($this.data('fill'));
+							$('.js-figure-stroke-color').val($this.data('stroke'));
+							$('.js-figure-label').val($this.data('label'));
+						})
+						.dblclick(function(e){
+							var $this = $(this);
+							app.execute('figure:add', {
+								fill: $this.data('fill'),
+								stroke: $this.data('stroke'),
+								label: $this.data('label')
+							});
+						});
+			});
+
 			$('.js-reveal-all').click(function(){
 				app.execute('reveal:all');
 			});
@@ -171,7 +206,7 @@ define(['app','module/init'], function(app){
 				_size_canvas();
 			});
 			$(_size_canvas);
-			
+
 			$('.form-dropdown input').click(function(e){
 				e.stopPropagation();
 			});
@@ -181,7 +216,7 @@ define(['app','module/init'], function(app){
 					dungeons.forEach(function(dungeon){
 						$list.append('<li><a class="js-dungeon-link" href="#" data-_id= "' + dungeon._id + '" data-name="' + dungeon.name + '">' + dungeon.name + '</a></li>');
 					});
-					
+
 					$('.js-dungeon-link').click(function(e){
 						app.execute('dungeon:load', $(this).data('_id'), function(data){
 							_set_view_dungeon(data);
@@ -240,7 +275,7 @@ define(['app','module/init'], function(app){
 				var scale = parseFloat($(this).val());
 				app.execute('stage:setscale',scale);
 			});
-			$(window).bind('mousewheel', function(e){
+			$('.canvas-wrap').bind('mousewheel', function(e){
 				delta = Math.floor(e.originalEvent.wheelDelta / 120) / 10;
 				$('.js-dungeon-scale').val(Math.max(0, parseFloat($('.js-dungeon-scale').val()) + delta));
 				$('.js-dungeon-scale').change();
@@ -273,14 +308,14 @@ define(['app','module/init'], function(app){
 				_show_dungeon_menu();
 				_show_adventure_menu();
 			});
-			
+
 			app.reqres.setHandler('dashboard:dungeonname', _get_dungeon_name);
 			app.reqres.setHandler('dashboard:canvaswidth', _get_canvas_width);
 			app.reqres.setHandler('dashboard:canvasheight', _get_canvas_height);
 			app.reqres.setHandler('dashboard:dungeonscale', _get_dungeon_scale);
 			app.reqres.setHandler('dashboard:dungeongridwidth', _get_dungeon_grid_width);
 			app.reqres.setHandler('dashboard:dungeongridheight', _get_dungeon_grid_height);
-			
+
 			app.commands.setHandler('dashboard:setname', _set_dungeon_name);
 			app.commands.setHandler('dashboard:showcanvas', _show_canvas);
 			app.commands.setHandler('dashboard:hidecanvas', _hide_canvas);
