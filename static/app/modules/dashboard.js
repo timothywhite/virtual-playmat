@@ -124,6 +124,10 @@ define(['app','module/init'], function(app){
 				app.execute('config:set', 'toolMode', 'line');
 				app.execute('stage:setdraggable', false);
 			});
+			$('.js-tool-circle').click(function(){
+				app.execute('config:set', 'toolMode', 'circle');
+				app.execute('stage:setdraggable', false);
+			});
 			$('.js-tool-erase').click(function(){
 				app.execute('config:set', 'toolMode', 'erase');
 				app.execute('stage:setdraggable', false);
@@ -315,6 +319,7 @@ define(['app','module/init'], function(app){
 			app.reqres.setHandler('dashboard:dungeonscale', _get_dungeon_scale);
 			app.reqres.setHandler('dashboard:dungeongridwidth', _get_dungeon_grid_width);
 			app.reqres.setHandler('dashboard:dungeongridheight', _get_dungeon_grid_height);
+			app.reqres.setHandler('dashboard:circleradius', function(){return $('.js-circle-radius').val() * app.request('config', 'cellSize');})
 
 			app.commands.setHandler('dashboard:setname', _set_dungeon_name);
 			app.commands.setHandler('dashboard:showcanvas', _show_canvas);

@@ -29,3 +29,11 @@
 .saved-figures-list li{
 	float: left;
 }
+
+.radius-addon{
+	padding: 0px 2px;
+}
+
+.radius-addon img{
+	width: 31px;
+}
