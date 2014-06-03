@@ -4,7 +4,7 @@ define(['app', 'module/layers'], function(app){
 			shapeColor = '#000000';
 
 		function _set_event_handlers(shape){
-			shape.on('dblclick dbltap', function(e){
+			shape.on('click tap', function(e){
 				if(app.request('config', 'toolMode') === 'erase'){
 					this.remove();
 					drawLayer.draw();
