@@ -15,3 +15,25 @@
 .form-dropdown{
 	padding: 15px;
 }
+
+.saved-figures-wrap{
+	height: 170px;
+	border: 1px solid black;
+	overflow: scroll;
+}
+.saved-figures-list{
+	list-style: none;
+	padding: 0;
+	margin: 0;
+}
+.saved-figures-list li{
+	float: left;
+}
+
+.radius-addon{
+	padding: 0px 2px;
+}
+
+.radius-addon img{
+	width: 31px;
+}

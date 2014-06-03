@@ -11,7 +11,7 @@ var express = require('express'),
 	app = express(),
 	server = module.exports = require('http').createServer(app),
 	io = require('socket.io').listen(server);
-	
+
 mongoose.connect('mongodb://localhost/dnd');
 app.set('db','dnd');
 
@@ -25,8 +25,8 @@ app.set('view engine', 'hjs');
 /*****Middleware***********************************************************************/
 app.use(favicon('/assets/img/favicon.ico'));
 app.use(logger('dev'));
-app.use(bodyParser.json());
-app.use(bodyParser.urlencoded());
+app.use(bodyParser.json({limit: '50mb'}));
+app.use(bodyParser.urlencoded({limit: '50mb'}));
 app.use(cookieParser());
 app.use(session({
 	secret: '908374091834710934816150',
@@ -38,7 +38,7 @@ app.use(express.static(path.join(__dirname, 'static')));
 
 //Require a login for all routes exept the login page.
 app.use(function requireLogin(req, res, next){
-	if (req.path === '/users/login' || req.session.user) next(); 
+	if (req.path === '/users/login' || req.session.user) next();
         else res.redirect('/users/login')
 });
 

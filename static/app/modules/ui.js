@@ -45,15 +45,19 @@ define(['app', 'kinetic', 'module/layers'], function(app, Kinetic){
 			uiLayer.draw();
 		});
 		hoverCircle.on('click', function(e){
-			if (!selectCircle.visible()){
-				selectCircle.x(this.x());
-				selectCircle.y(this.y());
-				selectCircle.show();
-				uiLayer.draw();
-			}else{
-				app.execute('draw:line',[selectCircle.x(),selectCircle.y(),this.x(),this.y()]);
-				selectCircle.hide();
-				uiLayer.draw();
+			if (app.request('config', 'toolMode') === 'line'){
+				if (!selectCircle.visible()){
+					selectCircle.x(this.x());
+					selectCircle.y(this.y());
+					selectCircle.show();
+					uiLayer.draw();
+				}else{
+					app.execute('draw:line',[selectCircle.x(),selectCircle.y(),this.x(),this.y()]);
+					selectCircle.hide();
+					uiLayer.draw();
+				}
+			} else if (app.request('config', 'toolMode') === 'circle'){
+				app.execute('draw:circle', {x: this.x(), y: this.y()}, app.request('dashboard:circleradius'));
 			}
 		});
 		selectCircle.on('click', function(e){
@@ -62,7 +66,7 @@ define(['app', 'kinetic', 'module/layers'], function(app, Kinetic){
 		});
 		uiLayer.add(hoverCircle);
 		uiLayer.add(selectCircle);
-		
+
 		var hitRect = new Kinetic.Rect({
 			x: 0,
 			y: 0,
@@ -73,7 +77,7 @@ define(['app', 'kinetic', 'module/layers'], function(app, Kinetic){
 			if (isHiding){
 				app.execute('reveal:add', _get_pointer_position());
 			}
-			if (app.request('config', 'toolMode') === 'line'){
+			if (app.request('config', 'toolMode') === 'line' || app.request('config', 'toolMode') === 'circle'){
 				var pos = _get_pointer_position(),
 				mousex = pos.x,
 				mousey = pos.y,
@@ -85,7 +89,7 @@ define(['app', 'kinetic', 'module/layers'], function(app, Kinetic){
 				y2 = Math.floor(mousey / hitCellSize) * hitCellSize + hitCellSize,
 				x = Math.abs(mousex - x1) < (hitCellSize / 2) ? x1 : x2,
 				y = Math.abs(mousey - y1) < (hitCellSize / 2) ? y1 : y2,
-				deltax = mousex - x, 
+				deltax = mousex - x,
 				deltay = mousey - y,
 				delta = Math.sqrt((deltax * deltax) + (deltay * deltay));
 				if(delta <= radius){
@@ -133,17 +137,17 @@ define(['app', 'kinetic', 'module/layers'], function(app, Kinetic){
 			}
 		});
 		hitLayer.add(hitRect);
-		
+
 		function _draw_hit_rect(){
 			var cellSize = app.request('config','cellSize'),
 			gridWidth = app.request('config', 'gridWidth'),
 			gridHeight = app.request('config', 'gridHeight');
-			
+
 			hitRect.width(gridWidth * cellSize);
 			hitRect.height(gridHeight * cellSize);
 			hitLayer.drawHit();
 		}
-		
+
 		app.commands.setHandler('ui:redraw', _draw_hit_rect);
 		app.vent.on('config:gridset',_draw_hit_rect);
 	});
