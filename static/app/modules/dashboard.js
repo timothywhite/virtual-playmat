@@ -105,10 +105,12 @@ define(['app','module/init'], function(app){
                                         _hide_adventure_menu();
                                         if(app.request('adventure:isdm')){
                                                 _show_controls();
+                                                _show_dungeon_menu();
                                                 _show_dm_only();
                                         }else{
                                                 _hide_dm_only();
                                                 _hide_dungeon_menu();
+                                        		_hide_controls();
                                         }
 				},
 				_set_view_dungeon = function(data){
@@ -117,7 +119,12 @@ define(['app','module/init'], function(app){
                                         _set_dungeon_name(data.name);
                                         _show_controls();
                                         _show_canvas();
-				};
+				},
+				_load_figure = function(stroke, fill, label){
+					$('.js-figure-stroke-color').val(stroke);
+					$('.js-figure-fill-color').val(fill);
+					$('.js-figure-label').val(label);
+				}
 
 			//Tool selection events
 			$('.js-tool-line').click(function(){
@@ -189,10 +196,12 @@ define(['app','module/init'], function(app){
 				$element
 					.find('.js-load-figure')
 						.click(function(e){
-							var $this = $(this);
-							$('.js-figure-fill-color').val($this.data('fill'));
-							$('.js-figure-stroke-color').val($this.data('stroke'));
-							$('.js-figure-label').val($this.data('label'));
+							if(e.which === 1){
+								var $this = $(this);
+								_load_figure($this.data('stroke'), $this.data('fill'), $this.data('label'));
+							}else if (e.which === 2){
+								$(this).remove();
+							}
 						})
 						.dblclick(function(e){
 							var $this = $(this);
@@ -328,6 +337,7 @@ define(['app','module/init'], function(app){
 			app.commands.setHandler('dashboard:setname', _set_dungeon_name);
 			app.commands.setHandler('dashboard:showcanvas', _show_canvas);
 			app.commands.setHandler('dashboard:hidecanvas', _hide_canvas);
+			app.commands.setHandler('dashboard:loadfigure', _load_figure);
 		});
 	});
 });

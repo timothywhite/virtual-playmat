@@ -25,6 +25,11 @@ define(['app', 'module/layers'], function(app){
 					app.vent.trigger('figure:update');
 				}
 			});
+			figure.on('dblclick', function(e){
+				background = this.find('Circle')[0];
+				label = this.find('Text')[0];
+				app.execute('dashboard:loadfigure', background.stroke(), background.fill(), label.text());
+			});
 			figure.on('dragstart', function(e){
 				figure.moveToTop();
 			});
