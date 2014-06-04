@@ -174,12 +174,16 @@ define(['app','module/init'], function(app){
 				},
 				figure = app.request('figure:new', figureOptions);
 				figureLayer = app.request('layer', 'figure');
+				stage = app.request('stage');
+				scale = stage.scale();
+				stage.scale({x: 1, y: 1});
 				figureLayer.add(figure);
 				dataUrl = figure.toDataURL({
 					width: cellSize,
 					height: cellSize
 				});
 				figure.remove();
+				stage.scale(scale);
 				$element = $('<li><a class="js-load-figure" data-stroke="' + figureOptions.stroke + '" data-fill="' + figureOptions.fill + '" data-label="' + figureOptions.label + '"><img src="' + dataUrl + '"></a></li>');
 				$('.js-saved-figures').append($element);
 				$element
