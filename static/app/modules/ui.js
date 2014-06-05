@@ -7,6 +7,7 @@ define(['app', 'kinetic', 'module/layers'], function(app, Kinetic){
 		gridWidth = app.request('config', 'gridWidth'),
 		gridHeight = app.request('config', 'gridHeight'),
 		isHiding = false,
+		isRevealing = false,
 		_get_pointer_position = function(){
 			var pos = stage.getPointerPosition(),
 			    scale = app.request('dashboard:dungeonscale');
@@ -23,7 +24,16 @@ define(['app', 'kinetic', 'module/layers'], function(app, Kinetic){
 				x: x,
 				y: y
 			}
-		}
+		},
+		_propagate_event = function(eventStr){
+			stage = app.request('stage');
+			intersections = stage.getAllIntersections(stage.getPointerPosition());
+			intersections.forEach(function(node){
+				if (node.id() !== 'hitRect'){
+					node.fire(eventStr);
+				}
+			});
+		},
 		hoverCircle = new Kinetic.Circle({
 			x: 0,
 			y: 0,
@@ -68,6 +78,7 @@ define(['app', 'kinetic', 'module/layers'], function(app, Kinetic){
 		uiLayer.add(selectCircle);
 
 		var hitRect = new Kinetic.Rect({
+			id: 'hitRect',
 			x: 0,
 			y: 0,
 			width: gridWidth * cellSize,
@@ -76,6 +87,8 @@ define(['app', 'kinetic', 'module/layers'], function(app, Kinetic){
 		hitRect.on('mousemove', function(e){
 			if (isHiding){
 				app.execute('reveal:add', _get_pointer_position());
+			}else if (isRevealing){
+				app.execute('reveal:remove', _get_pointer_position());
 			}
 			if (app.request('config', 'toolMode') === 'line' || app.request('config', 'toolMode') === 'circle'){
 				var pos = _get_pointer_position(),
@@ -122,20 +135,31 @@ define(['app', 'kinetic', 'module/layers'], function(app, Kinetic){
 				}
 			}
 		});
+		hitRect.on('click', function(e){
+			_propagate_event('click');
+		});
 		hitRect.on('mousedown', function(e){
 			if (app.request('config', 'toolMode') === 'reveal'){
-				app.execute('reveal:add', _get_pointer_position());
-				isHiding = true;
+				if (app.request('reveal:ishidden', _get_pointer_position())){
+					app.execute('reveal:remove', _get_pointer_position());
+					isRevealing = true;
+				}else{
+					app.execute('reveal:add', _get_pointer_position());
+					isHiding = true;
+				}
 			}
 		});
-		hitRect.on('mouseup', function(e){
-			app.execute('reveal:stoprevealing');
+		hitRect.on('mouseup mouseleave', function(e){
+			isRevealing = false;
+			isHiding = false;
 		});
 		app.commands.setHandler('ui:stophiding', function(){
 			if (isHiding){
 				isHiding = false;
 			}
 		});
+		app.reqres.setHandler('ui:getpointerposition', _get_pointer_position);
+
 		hitLayer.add(hitRect);
 
 		function _draw_hit_rect(){
