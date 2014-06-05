@@ -71,6 +71,7 @@ define(['app', 'kinetic', 'module/layers'], function(app, Kinetic){
 			var revealLayer = app.request('layer', 'reveal');
 			squares = data.squares;
 			squareIndexes = data.indexes;
+			if (revealLayer.getChildren().length === 0) revealLayer.add(hideShape);
 			revealLayer.draw();
 		});
 		app.commands.setHandler('reveal:add', function(pos){
@@ -110,9 +111,6 @@ define(['app', 'kinetic', 'module/layers'], function(app, Kinetic){
 			revealLayer.draw();
 			app.vent.trigger('reveal:update');
 			app.execute('figure:reveal:none');
-		});
-		app.vent.on('layer:before:load:reveal', function(){
-			//app.request('layer','reveal').getChildren(_init_square);
 		});
 	});
 });
