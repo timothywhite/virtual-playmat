@@ -60,7 +60,19 @@ define(['app', 'kinetic', 'module/layers'], function(app, Kinetic){
 		};
 
 		app.reqres.setHandler('reveal:ishidden', _is_hidden);
+		app.reqres.setHandler('reveal:savedata', function(){
+			return {
+				squares: squares,
+				indexes: squareIndexes
+			};
+		});
 
+		app.commands.setHandler('reveal:load', function(data){
+			var revealLayer = app.request('layer', 'reveal');
+			squares = data.squares;
+			squareIndexes = data.indexes;
+			revealLayer.draw();
+		});
 		app.commands.setHandler('reveal:add', function(pos){
 			var revealLayer = app.request('layer', 'reveal');
 			_add_square(pos);

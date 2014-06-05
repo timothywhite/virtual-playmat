@@ -25,7 +25,7 @@ define(['app', 'kinetic', 'module/stage'],function(app, Kinetic){
 			app.vent.trigger('layer:before:load:' + name);
 
 			app.execute('stage:add', layer);
-			layer.setZIndex(layers[name].index)
+			layer.setZIndex(layers[name].index);
 
 			app.vent.trigger('layer:load:' + name);
 		});

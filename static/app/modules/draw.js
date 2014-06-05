@@ -12,6 +12,14 @@ define(['app', 'module/layers'], function(app){
 				}
 			});
 		};
+
+		app.reqres.setHandler('draw:savedata', function(){
+			return app.request('layer', 'draw').toObject();
+		});
+
+		app.commands.setHandler('draw:load', function(data){
+			app.execute('layer:load', 'draw', data);
+		});
 		app.commands.setHandler("draw:line", function(points){
 			drawLayer = app.request('layer','draw');
 			var line = new Kinetic.Line({
