@@ -47,7 +47,7 @@ define(['app', 'module/layers'], function(app){
 				layers: {
 					draw: (new Kinetic.Layer()).toObject(),
 					figure: (new Kinetic.Layer()).toObject(),
-					reveal: {squares: [], indexes: []}
+					reveal: {squares: []}
 				}
 			}
 			$.post(BASE_API_URL, dungeon, function(data, status, xhr){

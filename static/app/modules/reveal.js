@@ -10,13 +10,11 @@ define(['app', 'kinetic', 'module/layers'], function(app, Kinetic){
 			opacity: .5,
 			drawFunc: function(context){
 				var i, square;
-
 				if (app.request('adventure:isjoined') && !app.request('adventure:isdm')){
 					this.fill('white');
 					this.stroke('grey');
 					this.opacity(1);
 				}
-
 				context.beginPath();
 				for (i = 0; i < squares.length; i += 1){
 					square = squares[i];
@@ -62,15 +60,14 @@ define(['app', 'kinetic', 'module/layers'], function(app, Kinetic){
 		app.reqres.setHandler('reveal:ishidden', _is_hidden);
 		app.reqres.setHandler('reveal:savedata', function(){
 			return {
-				squares: squares,
-				indexes: squareIndexes
+				squares: squares
 			};
 		});
 
 		app.commands.setHandler('reveal:load', function(data){
 			var revealLayer = app.request('layer', 'reveal');
-			squares = data.squares;
-			squareIndexes = data.indexes;
+			squares = data.squares ? data.squares : [];
+			squareIndexes = squares.map(_get_square_index);
 			if (revealLayer.getChildren().length === 0) revealLayer.add(hideShape);
 			revealLayer.draw();
 		});
