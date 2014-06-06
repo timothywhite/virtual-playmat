@@ -11,7 +11,7 @@ var DungeonSchema = new Schema({
 	layers: {
 		draw: Object,
 		figure: Object,
-		reveal: Object
+		reveal: {type: Object, default: {squares: []}}
 	}
 });
 

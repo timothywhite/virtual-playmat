@@ -29,7 +29,7 @@ define(['app', 'socket.io', 'module/init'], function(app, io){
 			app.execute('dungeon:load', data.dungeon);
 			socket.on('update', function(data){
 				for(layer in data){
-					app.execute('layer:load', layer, data[layer]);
+					app.execute(layer + ':load', data[layer]);
 				}
 			});
 			socket.on('change dungeon', function(data){
@@ -56,7 +56,7 @@ define(['app', 'socket.io', 'module/init'], function(app, io){
 				socket.emit('update', {
 					id: currentAdventureId,
 					layers: {
-						draw: app.request('layer', 'draw').toObject()
+						draw: app.request('draw:savedata')
 					}
 				});
 			}
@@ -66,7 +66,7 @@ define(['app', 'socket.io', 'module/init'], function(app, io){
 				socket.emit('update', {
 					id: currentAdventureId,
 					layers: {
-						figure: app.request('layer', 'figure').toObject()
+						figure: app.request('figure:savedata')
 					}
 				});
 			}
@@ -76,7 +76,7 @@ define(['app', 'socket.io', 'module/init'], function(app, io){
 				socket.emit('update', {
 					id: currentAdventureId,
 					layers: {
-						reveal: app.request('layer', 'reveal').toObject()
+						reveal: app.request('reveal:savedata')
 					}
 				});
 			}

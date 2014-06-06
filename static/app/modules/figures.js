@@ -86,7 +86,13 @@ define(['app', 'module/layers'], function(app){
 		app.reqres.setHandler('figure:new', function(options){
 			return _build_figure(options);
 		});
+		app.reqres.setHandler('figure:savedata', function(){
+			return app.request('layer', 'figure').toObject();
+		});
 
+		app.commands.setHandler('figure:load', function(data){
+			app.execute('layer:load', 'figure', data);
+		});
 		app.commands.setHandler('figure:add',function(options){
 			figureLayer = app.request('layer','figure');
 			figure = _build_figure(options);
