@@ -290,8 +290,8 @@ define(['app','module/init'], function(app){
 			});
 			$('.js-dungeon-scale').change(function(e){
 				var scale = parseFloat($(this).val());
-				if (scale <= 0.2) $this.val(0.2);
-				if (scale >= 1) $this.val(1);
+				if (scale <= 0.2) $(this).val(0.2);
+				if (scale >= 1) $(this).val(1);
 				else app.execute('stage:setscale',scale);
 			});
 			$('.canvas-wrap').bind('mousewheel', function(e){
