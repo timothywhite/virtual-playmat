@@ -290,26 +290,35 @@ define(['app','module/init'], function(app){
 			});
 			$('.js-dungeon-scale').change(function(e){
 				var scale = parseFloat($(this).val());
-				app.execute('stage:setscale',scale);
+				if (scale <= 0.2) $this.val(0.2);
+				if (scale >= 1) $this.val(1);
+				else app.execute('stage:setscale',scale);
 			});
 			$('.canvas-wrap').bind('mousewheel', function(e){
 				delta = Math.floor(e.originalEvent.wheelDelta / 120) / 10;
 
 				oldScale = parseFloat($('.js-dungeon-scale').val());
 				newScale = Math.max(0, parseFloat($('.js-dungeon-scale').val()) + delta);
+				console.log(newScale);
+				if(newScale <= 0.2){
+					$('.js-dungeon-scale').val(0.2);
+				}else if(newScale >= 1){
+					$('.js-dungeon-scale').val(1);
+				}else{
 
-				$('.js-dungeon-scale').val(newScale);
+					$('.js-dungeon-scale').val(newScale);
 
-				stage = app.request('stage');
-				origin = stage.offset();
-				mx = e.pageX - stage.x();
-				my = e.pageY - stage.y();
-				origin.x = mx / oldScale + origin.x - mx / newScale;
-				origin.y = my / oldScale + origin.y - my / newScale;
+					stage = app.request('stage');
+					origin = stage.offset();
+					mx = e.pageX - stage.x();
+					my = e.pageY - stage.y();
+					origin.x = mx / oldScale + origin.x - mx / newScale;
+					origin.y = my / oldScale + origin.y - my / newScale;
 
-				stage.offset(origin);
+					stage.offset(origin);
 
-				$('.js-dungeon-scale').change();
+					$('.js-dungeon-scale').change();
+				}
 			});
 			$('.js-adventure-create').click(function(e){
 				var name = $('.js-adventure-create-name').val();
