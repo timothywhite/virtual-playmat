@@ -10,10 +10,11 @@ define(['app', 'kinetic', 'module/layers'], function(app, Kinetic){
 		isRevealing = false,
 		_get_pointer_position = function(){
 			var pos = stage.getPointerPosition(),
-			    scale = app.request('dashboard:dungeonscale');
+			    scale = app.request('dashboard:dungeonscale'),
+			    offset = stage.offset();
 			return {
-				x: (pos.x - stage.x()) / scale,
-				y: (pos.y - stage.y()) / scale
+				x: ((pos.x - stage.x()) / scale)  + offset.x,
+				y: ((pos.y - stage.y()) / scale) + offset.y
 			}
 		},
 		_get_cell_under_pointer = function(){
@@ -113,12 +114,10 @@ define(['app', 'kinetic', 'module/layers'], function(app, Kinetic){
 					uiLayer.draw();
 					setTimeout(function(){
 						if (hoverCircle.x() === x && hoverCircle.y() === y && hoverCircle.visible()){
-							var pos = stage.getPointerPosition()
+							var pos = _get_pointer_position();
 							if (pos){
-								mousex = (pos.x - stage.x()) / app.request('dashboard:dungeonscale'),
-								mousey = (pos.y - stage.y()) / app.request('dashboard:dungeonscale'),
-								deltax = mousex - x,
-								deltay = mousey - y,
+								deltax = pos.x - x,
+								deltay = pos.y - y,
 								delta = Math.sqrt((deltax * deltax) + (deltay * deltay));
 							}
 							if (delta > radius || !pos){

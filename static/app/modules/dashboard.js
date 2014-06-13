@@ -294,7 +294,21 @@ define(['app','module/init'], function(app){
 			});
 			$('.canvas-wrap').bind('mousewheel', function(e){
 				delta = Math.floor(e.originalEvent.wheelDelta / 120) / 10;
-				$('.js-dungeon-scale').val(Math.max(0, parseFloat($('.js-dungeon-scale').val()) + delta));
+
+				oldScale = parseFloat($('.js-dungeon-scale').val());
+				newScale = Math.max(0, parseFloat($('.js-dungeon-scale').val()) + delta);
+
+				$('.js-dungeon-scale').val(newScale);
+
+				stage = app.request('stage');
+				origin = stage.offset();
+				mx = e.pageX - stage.x();
+				my = e.pageY - stage.y();
+				origin.x = mx / oldScale + origin.x - mx / newScale;
+				origin.y = my / oldScale + origin.y - my / newScale;
+
+				stage.offset(origin);
+
 				$('.js-dungeon-scale').change();
 			});
 			$('.js-adventure-create').click(function(e){
